@@ -1,64 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basic Web Development</title>
 
-    <link rel="stylesheet" href="styles.css"/>
+    <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
-    <div>
-        <div>
-            <h1>Select your preferences:</h1>
-        </div>
-        <div>
-            <h2>Presets:</h2>
-            <form>
-                <div>
-                    <label for="all">All</label>
-                    <input id="all" name="preset" type="radio" value="All" />
-                </div>
-                <div>
-                    <label for="permissive">Permissive</label>
-                    <input id="permissive" name="preset" type="radio" value="Permissive" />
-                </div>
-                <div>
-                    <label for="necessary">Necessary</label>
-                    <input id="necessary" name="preset" type="radio" value="Necessary" />
-                </div>
-            </form>
-        </div>
-        <div>
-            <h2>Permissions:</h2>
-            <form>
-                <div>
-                    <label for="data">Send all your data to Mr Zuck</label>
-                    <input id="data" name="permisison1" type="checkbox" value="data" checked disabled />
-                </div>
-                <div>
-                    <label for="record">Record and store all private interactions</label>
-                    <input id="record" name="permisison2" type="checkbox" value="record" checked disabled />
-                </div>
-                <div>
-                    <label for="harves">Harvest device specifications</label>
-                    <input id="harves" name="permisison3" type="checkbox" value="harvest" />
-                </div>
-                <div>
-                    <label for="laugh">Laugh at your poor life choices</label>
-                    <input id="laugh" name="permisison4" type="checkbox" value="laugh" />
-                </div>
-                <div>
-                    <label for="send">Send you daily monke memes</label>
-                    <input id="send" name="permisison5" type="checkbox" value="send" />
-                </div>
-                <div>
-                    <label for="read">Read Berserk by Kentaro Miura on your behalf</label>
-                    <input id="read" name="permisison6" type="checkbox" value="read" />
-                </div>
-            </form>
+    <div class="preferences">
+        <div class="bar"></div>
+        <div class="content">
+            <div>
+                <h1>Select your preferences:</h1>
+            </div>
+            <div class="section">
+                <h2>Presets:</h2>
+                <form>
+                    <div>
+                        <label for="all">All</label>
+                        <input id="all" name="preset" type="radio" value="All" />
+                    </div>
+                    <div>
+                        <label for="permissive">Permissive</label>
+                        <input id="permissive" name="preset" type="radio" value="Permissive" />
+                    </div>
+                    <div>
+                        <label for="necessary">Necessary</label>
+                        <input id="necessary" name="preset" type="radio" value="Necessary" />
+                    </div>
+                </form>
+            </div>
+            <div class="section">
+                <h2>Permissions:</h2>
+                <form>
+                    <div>
+                        <label for="data">Send all your data to Mr Zuck</label>
+                        <input id="data" name="permisison1" type="checkbox" value="data" checked disabled />
+                    </div>
+                    <div>
+                        <label for="record">Record and store all private interactions</label>
+                        <input id="record" name="permisison2" type="checkbox" value="record" checked disabled />
+                    </div>
+                    <div>
+                        <label for="harves">Harvest device specifications</label>
+                        <input id="harves" name="permisison3" type="checkbox" value="harvest" />
+                    </div>
+                    <div>
+                        <label for="laugh">Laugh at your poor life choices</label>
+                        <input id="laugh" name="permisison4" type="checkbox" value="laugh" />
+                    </div>
+                    <div>
+                        <label for="send">Send you daily monke memes</label>
+                        <input id="send" name="permisison5" type="checkbox" value="send" />
+                    </div>
+                    <div>
+                        <label for="read">Read Berserk by Kentaro Miura on your behalf</label>
+                        <input id="read" name="permisison6" type="checkbox" value="read" />
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </body>
+
 </html>
