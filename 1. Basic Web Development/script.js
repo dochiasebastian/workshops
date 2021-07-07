@@ -1,14 +1,48 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const allRadios = document.querySelectorAll('input[name="preset"]');
-    console.log(allRadios);
+    const radios = document.querySelectorAll('input[name="preset"]');
 
-    addListenerToRadios(allRadios);
+    const pmsBoxes = document.querySelectorAll('input[name="permissionPms"]');
+    const allBoxes = document.querySelectorAll('input[name="permissionAll"]');
+
+    const boxes = {pmsBoxes, allBoxes};
+
+    console.log(radios);
+    console.log(boxes);
+    console.log(pmsBoxes);
+
+    addListenerToRadios(radios, boxes);
 });
 
-addListenerToRadios = (allRadios) => {
-    allRadios.forEach(allRadio => {
-        allRadio.addEventListener("change", event => {
+addListenerToRadios = (radios, boxes) => {
+    radios.forEach(radio => {
+        radio.addEventListener("change", event => {
             console.log(event.target.value);
+            switch (event.target.value) {
+                case "All":
+                    changeBoxesState(boxes.pmsBoxes, true);
+                    changeBoxesState(boxes.allBoxes, true);
+                    break;
+                
+                case "Permissive":
+                    changeBoxesState(boxes.pmsBoxes, true);
+                    changeBoxesState(boxes.allBoxes, false);
+                    break;
+
+                case "Necessary":
+                    changeBoxesState(boxes.pmsBoxes, false);
+                    changeBoxesState(boxes.allBoxes, false);
+                    break;
+
+                default:
+                    console.log("#ERROR");
+                    break;
+            }
         });
-    })
+    });
+}
+
+changeBoxesState = (boxes, state) => {
+    boxes.forEach(box => {
+        box.checked = state;
+    });
 }
