@@ -49,7 +49,11 @@ onSubmit = () => {
     const read = document.getElementById('read').checked;
 
     const message = `{"data": "${data}", "record": "${record}", "harvest": "${harvest}", "laugh": "${laugh}", "send": "${send}", "read": "${read}"}`
-    console.log(message);
+
+    messageJSON = JSON.parse(message);
+    console.log(messageJSON);
+
+    
 }
 
 changeBoxesState = (boxes, state) => {
