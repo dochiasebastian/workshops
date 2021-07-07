@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log(radios);
     console.log(boxes);
-    console.log(pmsBoxes);
 
     addListenerToRadios(radios, boxes);
 });
