@@ -42,6 +42,10 @@
     justify-self: end;
 }
 
+.btnConfirm {
+    margin-top: 15px;
+}
+
 @media only screen and (max-width: 1240px) {
     .preferences {
         width: fit-content;

@@ -40,6 +40,18 @@ addListenerToRadios = (radios, boxes) => {
     });
 }
 
+onSubmit = () => {
+    const data = document.getElementById('data').checked;
+    const record = document.getElementById('record').checked;
+    const harvest = document.getElementById('harvest').checked;
+    const laugh = document.getElementById('laugh').checked;
+    const send = document.getElementById('send').checked;
+    const read = document.getElementById('read').checked;
+
+    const message = `{"data": "${data}", "record": "${record}", "harvest": "${harvest}", "laugh": "${laugh}", "send": "${send}", "read": "${read}"}`
+    console.log(message);
+}
+
 changeBoxesState = (boxes, state) => {
     boxes.forEach(box => {
         box.checked = state;
