@@ -1,10 +1,15 @@
+const API_URL = "http://localhost:3000";
+const HEADERS = {
+    "Content-Type": "application/json",
+};
+
 document.addEventListener("DOMContentLoaded", () => {
     const radios = document.querySelectorAll('input[name="preset"]');
 
     const pmsBoxes = document.querySelectorAll('input[name="permissionPms"]');
     const allBoxes = document.querySelectorAll('input[name="permissionAll"]');
 
-    const boxes = {pmsBoxes, allBoxes};
+    const boxes = { pmsBoxes, allBoxes };
 
     console.log(radios);
     console.log(boxes);
@@ -21,7 +26,7 @@ addListenerToRadios = (radios, boxes) => {
                     changeBoxesState(boxes.pmsBoxes, true);
                     changeBoxesState(boxes.allBoxes, true);
                     break;
-                
+
                 case "Permissive":
                     changeBoxesState(boxes.pmsBoxes, true);
                     changeBoxesState(boxes.allBoxes, false);
@@ -50,10 +55,13 @@ onSubmit = () => {
 
     const message = `{"data": "${data}", "record": "${record}", "harvest": "${harvest}", "laugh": "${laugh}", "send": "${send}", "read": "${read}"}`
 
-    messageJSON = JSON.parse(message);
-    console.log(messageJSON);
+    messageJSON = JSON.parse(JSON.stringify(message));
+    console.log(typeof(messageJSON));
 
-    
+    fetch(API_URL, { method: 'POST', headers: HEADERS, body: messageJSON })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch((error) => console.error('Error:', error));
 }
 
 changeBoxesState = (boxes, state) => {
