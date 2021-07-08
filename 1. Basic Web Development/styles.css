@@ -3,6 +3,27 @@
     font-family: monospace;
 }
 
+button[type="submit"] {
+    font-size: large;
+}
+
+button[type="submit"]:hover {
+    background-color: greenyellow;
+}
+
+a[href^="http"]::before {
+    background-image: url(./icons/externalLinkIco.png);
+    background-size: 15px 17px;
+    display: inline-block;
+    width: 15px; 
+    height: 15px;
+    content:"";
+}
+
+label:lang(en) {
+    font-size: large;
+}
+
 .preferences {
     width: 30%;
     background-color: #F6F4F4;
@@ -36,6 +57,12 @@
 
 .grid-element label {
     justify-self: start;
+    margin-right: 10px;
+}
+
+.grid-element a {
+    justify-self: end;
+    margin-top: 20px;
 }
 
 .grid-element input {
@@ -44,6 +71,7 @@
 
 .btnConfirm {
     margin-top: 15px;
+    justify-self: start;
 }
 
 @media only screen and (max-width: 1240px) {
