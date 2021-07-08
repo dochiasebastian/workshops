@@ -35,7 +35,7 @@
             </div>
             <div class="section">
                 <h2>Permissions:</h2>
-                <form>
+                <form id="permissions-form">
                     <div class="grid-element">
                         <label for="data">Send all your data to Mr Zuck</label>
                         <input id="data" name="permissionNss" type="checkbox" value="data" checked disabled />
@@ -60,8 +60,9 @@
                         <label for="read">Read Berserk by Kentaro Miura on your behalf</label>
                         <input id="read" name="permissionAll" type="checkbox" value="read" />
                     </div>
+                    <button type="submit" class="btnConfirm">Confirm</button>
                 </form>
-                <button type="submit" onclick="onSubmit()" class="btnConfirm">Confirm</button>
+                
             </div>
         </div>
     </div>
