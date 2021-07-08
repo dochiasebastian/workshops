@@ -50,6 +50,14 @@ label:lang(en) {
     margin-top: 15px;
 }
 
+button[type="submit" i] {
+    font-size: large;
+}
+
+button[type="submit" i]:hover {
+    background-color: greenyellow;
+}
+
 @media only screen and (max-width: 1240px) {
     .preferences {
         width: fit-content;
