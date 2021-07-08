@@ -3,6 +3,10 @@
     font-family: monospace;
 }
 
+label:lang(en) {
+    font-size: large;
+}
+
 .preferences {
     width: 30%;
     background-color: #F6F4F4;
