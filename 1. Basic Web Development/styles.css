@@ -50,11 +50,11 @@ label:lang(en) {
     margin-top: 15px;
 }
 
-button[type="submit" i] {
+button[type="submit"] {
     font-size: large;
 }
 
-button[type="submit" i]:hover {
+button[type="submit"]:hover {
     background-color: greenyellow;
 }
 
