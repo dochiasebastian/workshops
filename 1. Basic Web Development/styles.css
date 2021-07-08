@@ -40,6 +40,7 @@ label:lang(en) {
 
 .grid-element label {
     justify-self: start;
+    margin-right: 10px;
 }
 
 .grid-element input {
