@@ -59,10 +59,9 @@ formSubmission = (form) => {
         const send = document.getElementById('send').checked;
         const read = document.getElementById('read').checked;
 
-        const message = `{"data": "${data}", "record": "${record}", "harvest": "${harvest}", "laugh": "${laugh}", "send": "${send}", "read": "${read}"}`
+        const message = new Permissions(data, record, harvest, laugh, send, read);  
 
-        messageJSON = JSON.parse(JSON.stringify(message));
-        console.log(typeof (messageJSON));
+        const messageJSON = JSON.stringify(message);
 
         fetch(API_URL, { method: 'POST', headers: HEADERS, body: messageJSON })
             .then(response => response.json())
