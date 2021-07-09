@@ -63,6 +63,8 @@ label:lang(en) {
 .grid-element a {
     justify-self: end;
     margin-top: 20px;
+    display: flex;
+    align-content: center;
 }
 
 .grid-element input {
