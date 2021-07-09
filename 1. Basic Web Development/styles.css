@@ -3,6 +3,14 @@
     font-family: monospace;
 }
 
+body {
+    counter-reset: checkedCount;
+}
+
+:checked[type="checkbox"] {
+    counter-increment: checkedCount;
+}
+
 button[type="submit"] {
     font-size: large;
 }
@@ -74,6 +82,11 @@ label:lang(en) {
 .btnConfirm {
     margin-top: 15px;
     justify-self: start;
+}
+
+.agreeCountDisplay::after {
+    content: " " counter(checkedCount) " permissions.";
+    color:indigo;
 }
 
 @media only screen and (max-width: 1240px) {
