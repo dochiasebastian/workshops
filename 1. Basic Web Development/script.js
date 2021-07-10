@@ -4,7 +4,7 @@ const HEADERS = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("permissions-form");
+    const form = document.getElementById('permissions-form');
 
     const radios = document.querySelectorAll('input[name="preset"]');
 
@@ -13,16 +13,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const boxes = { pmsBoxes, allBoxes };
 
-    console.log(radios);
-    console.log(boxes);
-
     handleRadios(radios, boxes);
     formSubmission(form);
+
+    handlePopUp();
 });
 
 handleRadios = (radios, boxes) => {
     radios.forEach(radio => {
-        radio.addEventListener("change", event => {
+        radio.addEventListener('change', event => {
             console.log(event.target.value);
             switch (event.target.value) {
                 case "All":
@@ -68,6 +67,20 @@ formSubmission = (form) => {
             .then(response => response.json())
             .then(data => console.log(data))
             .catch((error) => console.error('Error:', error));
+    });
+}
+
+handlePopUp = () => {
+    const popUp = document.getElementsByClassName('preferences')[0];
+
+    console.log(popUp);
+
+    popUp.addEventListener('click', () => {
+        popUp.style.bottom = '0px';
+    });
+
+    popUp.addEventListener('mouseleave', () => {
+        popUp.style.bottom = '-450px';
     });
 }
 

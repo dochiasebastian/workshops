@@ -1,10 +1,12 @@
 * {
     box-sizing: border-box;
     font-family: monospace;
+    overflow-y: hidden;
 }
 
 body {
     counter-reset: checkedCount;
+    position: relative;
 }
 
 :checked[type="checkbox"] {
@@ -23,7 +25,7 @@ a[href^="http"]::before {
     background-image: url(./icons/externalLinkIco.png);
     background-size: 15px 17px;
     display: inline-block;
-    width: 15px; 
+    width: 15px;
     height: 15px;
     content:"";
 }
@@ -35,8 +37,18 @@ label:lang(en) {
 .preferences {
     width: 30%;
     background-color: #F6F4F4;
-    margin: auto;
-    margin-top: 10%;
+    position: fixed;
+    bottom: -450px;
+    margin-left: auto;
+    margin-right: auto;
+    right: 0;
+    left: 0;
+    transition: bottom 200ms linear 50ms ;
+}
+
+.preferences:hover {
+    bottom: -435px;
+    transition: bottom 200ms linear 50ms ;
 }
 
 .content {
