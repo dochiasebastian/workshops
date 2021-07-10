@@ -101,6 +101,20 @@ label:lang(en) {
     color:indigo;
 }
 
+.spinner-grid {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    margin-top: 20%;
+}
+
+.spinner-grid div {
+    width: 33%;
+    height: 33%;
+    background-color: #736B60;
+    float: left;
+}
+
 @media only screen and (max-width: 1240px) {
     .preferences {
         width: fit-content;
