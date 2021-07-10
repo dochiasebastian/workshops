@@ -77,10 +77,12 @@ handlePopUp = () => {
 
     popUp.addEventListener('click', () => {
         popUp.style.bottom = '0px';
-    });
 
-    popUp.addEventListener('mouseleave', () => {
-        popUp.style.bottom = '-450px';
+        popUp.addEventListener('mouseleave', () => {
+            popUp.style.bottom = '-450px';
+
+            popUp.removeEventListener('mouseleave', () => {});
+        });
     });
 }
 
