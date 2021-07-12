@@ -4,9 +4,15 @@ const HEADERS = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById('permissions-form');
+    const lock = document.getElementById('lock') as HTMLInputElement
+
+    const isLocked: boolean = lock.checked;
+
+    const permisisonsForm = document.getElementById('permissions-form');
 
     const radios = document.querySelectorAll('input[name="preset"]') as NodeListOf<HTMLInputElement>;
+
+    const popUp = document.getElementsByClassName('preferences')[0];
 
     const pmsBoxes = document.querySelectorAll('input[name="permissionPms"]') as NodeListOf<HTMLInputElement>;
     const allBoxes = document.querySelectorAll('input[name="permissionAll"]') as NodeListOf<HTMLInputElement>;
@@ -14,14 +20,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const boxes = { pmsBoxes, allBoxes };
 
     handleRadios(radios, boxes);
-    formSubmission(form);
 
-    handlePopUp();
+    formSubmission(permisisonsForm);
+
+    handleLock(lock, popUp);
+
+    handlePopUp(isLocked, popUp);
 });
 
 function handleRadios(radios: NodeListOf<HTMLInputElement>, boxes: { pmsBoxes: NodeListOf<HTMLInputElement>; allBoxes: NodeListOf<HTMLInputElement>; }) {
     radios.forEach(radio => {
         radio.addEventListener('change', event => {
+
             switch ((event.target as HTMLInputElement).value) {
                 case "All":
                     this.changeBoxesState(boxes.pmsBoxes, true);
@@ -66,20 +76,46 @@ function formSubmission (form: HTMLElement) {
     });
 }
 
-function handlePopUp() {
-    const popUp = document.getElementsByClassName('preferences')[0];
+function handleLock(lock: HTMLInputElement, popUp: Element) {
+    lock.addEventListener('change', (event) => {
+        const isLocked: boolean = (event.target as HTMLInputElement).checked;
 
-    popUp.addEventListener('click', () => {
+        console.log(isLocked);
+
+        popUp.classList.remove('hidden');
+        popUp.classList.remove('showing');
+
+        if(isLocked) {
+            popUp.classList.add('showing');
+        } else {
+            popUp.classList.add('hidden');
+        }
+
+        handlePopUp(isLocked, popUp);
+    })
+}
+
+function handlePopUp(isLocked: boolean, popUp: Element) {
+    if(isLocked) {
         popUp.classList.add('showing');
         popUp.classList.remove('hidden');
 
-        popUp.addEventListener('mouseleave', () => {
-            popUp.classList.add('hidden');
-            popUp.classList.remove('showing');
-
-            popUp.removeEventListener('mouseleave', () => {});
+        popUp.removeEventListener('click', () => {});
+    } else {
+        popUp.addEventListener('click', () => {
+            console.log(isLocked);
+            popUp.classList.add('showing');
+            popUp.classList.remove('hidden');
+    
+            popUp.addEventListener('mouseleave', () => {
+                console.log(isLocked);
+                popUp.classList.add('hidden');
+                popUp.classList.remove('showing');
+    
+                popUp.removeEventListener('mouseleave', () => {});
+            });
         });
-    });
+    }
 }
 
 function changeBoxesState(boxes: NodeListOf<HTMLInputElement> , state: boolean) {

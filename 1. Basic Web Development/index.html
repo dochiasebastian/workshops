@@ -23,6 +23,33 @@
         <div class="square8"></div>
         <div class="square9"></div>
     </div>
+    <div>
+        <h1>Design your preferences pop-up!</h1>
+        <form id="creationForm">
+            <h2>Cathegory</h2>
+            <div>
+                <input id="allC" name="preset" type="radio" value="All" />
+                <label for="allC">All</label>
+            </div>
+            <div>
+                <input id="permissiveC" name="preset" type="radio" value="Permissive" />
+                <label for="permissiveC">Permissive</label>
+            </div>
+            <div>
+                <input id="necessaryC" name="preset" type="radio" value="Necessary" />
+                <label for="necessaryC">Necessary</label>
+            </div>
+            <h2>Permisison text</h2>
+            <div>
+                <label for="name">Display text</label>
+                <input id="name" name="name" type="text" />
+            </div>
+        </form>
+        <div>
+            <input id="lock" name="lock" type="checkbox" checked/>
+            <label for="lock">Lock Pop-up</label>
+        </div>
+    </div>
     <div class="preferences hidden">
         <div class="bar"></div>
         <div class="content">
