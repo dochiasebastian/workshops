@@ -9,7 +9,7 @@ body {
     position: relative;
 }
 
-:checked[type="checkbox"] {
+#permissions-form :checked[type="checkbox"] {
     counter-increment: checkedCount;
 }
 
