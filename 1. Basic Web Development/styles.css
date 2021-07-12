@@ -1,6 +1,16 @@
 * {
     box-sizing: border-box;
     font-family: monospace;
+    overflow-y: hidden;
+}
+
+body {
+    counter-reset: checkedCount;
+    position: relative;
+}
+
+:checked[type="checkbox"] {
+    counter-increment: checkedCount;
 }
 
 button[type="submit"] {
@@ -15,9 +25,9 @@ a[href^="http"]::before {
     background-image: url(./icons/externalLinkIco.png);
     background-size: 15px 17px;
     display: inline-block;
-    width: 15px; 
+    width: 15px;
     height: 15px;
-    content:"";
+    content: "";
 }
 
 label:lang(en) {
@@ -27,8 +37,18 @@ label:lang(en) {
 .preferences {
     width: 30%;
     background-color: #F6F4F4;
-    margin: auto;
-    margin-top: 10%;
+    position: fixed;
+    bottom: -450px;
+    margin-left: auto;
+    margin-right: auto;
+    right: 0;
+    left: 0;
+    transition: bottom 200ms linear 50ms;
+}
+
+.preferences:hover {
+    bottom: -435px;
+    transition: bottom 200ms linear 50ms;
 }
 
 .content {
@@ -63,6 +83,8 @@ label:lang(en) {
 .grid-element a {
     justify-self: end;
     margin-top: 20px;
+    display: flex;
+    align-content: center;
 }
 
 .grid-element input {
@@ -72,6 +94,94 @@ label:lang(en) {
 .btnConfirm {
     margin-top: 15px;
     justify-self: start;
+}
+
+.agreeCountDisplay::after {
+    content: " " counter(checkedCount) " permissions.";
+    color: indigo;
+}
+
+.spinner-grid {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    margin-top: 40vh;
+}
+
+.spinner-grid div {
+    width: 33%;
+    height: 33%;
+    background-color: #736B60;
+    float: left;
+    -webkit-animation: squareGridScaleDelay 1.3s infinite ease-in-out;
+    animation: squareGridScaleDelay 1.3s infinite ease-in-out;
+}
+
+.spinner-grid .square1 {
+    -webkit-animation-delay: 0.4s;
+    animation-delay: 0.4s;
+}
+
+.spinner-grid .square2 {
+    -webkit-animation-delay: 0.6s;
+    animation-delay: 0.6s;
+}
+
+.spinner-grid .square3 {
+    -webkit-animation-delay: 0.8s;
+    animation-delay: 0.8s;
+}
+
+.spinner-grid .square4 {
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s;
+}
+
+.spinner-grid .square5 {
+    -webkit-animation-delay: 0.4s;
+    animation-delay: 0.4s;
+}
+
+.spinner-grid .square6 {
+    -webkit-animation-delay: 0.6s;
+    animation-delay: 0.6s;
+}
+
+.spinner-grid .square7 {
+    -webkit-animation-delay: 0s;
+    animation-delay: 0s;
+}
+
+.spinner-grid .square8 {
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s;
+}
+
+.spinner-grid .square9 {
+    -webkit-animation-delay: 0.4s;
+    animation-delay: 0.4s;
+}
+
+@-webkit-keyframes squareGridScaleDelay {
+    0%, 70%, 100% {
+        -webkit-transform: scale3D(1, 1, 1);
+        transform: scale3D(1, 1, 1);
+    }
+    35% {
+        -webkit-transform: scale3D(0, 0, 1);
+        transform: scale3D(0, 0, 1);
+    }
+}
+
+@keyframes squareGridScaleDelay {
+    0%, 70%, 100% {
+        -webkit-transform: scale3D(1, 1, 1);
+        transform: scale3D(1, 1, 1);
+    }
+    35% {
+        -webkit-transform: scale3D(0, 0, 1);
+        transform: scale3D(0, 0, 1);
+    }
 }
 
 @media only screen and (max-width: 1240px) {
