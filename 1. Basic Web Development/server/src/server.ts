@@ -1,6 +1,6 @@
-const express = require('express');
-const colors = require('colors');
-const cors = require("cors");
+import express = require('express');
+import color from 'colorts';
+import cors = require("cors");
 
 const app = express();
 
@@ -21,4 +21,6 @@ app.post('/', (req, res) => {
     });
 });
 
-app.listen(3000, console.log("Server running on port 3000".brightBlue.bold));
+app.listen(3000, () => {
+    console.log(color('Server running on port 3000').bold);
+});
