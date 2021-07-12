@@ -38,12 +38,19 @@ label:lang(en) {
     width: 30%;
     background-color: #F6F4F4;
     position: fixed;
-    bottom: -450px;
     margin-left: auto;
     margin-right: auto;
     right: 0;
     left: 0;
     transition: bottom 200ms linear 50ms;
+}
+
+.hidden {
+    bottom: -450px;
+}
+
+.showing {
+    bottom: 0px !important;
 }
 
 .preferences:hover {
