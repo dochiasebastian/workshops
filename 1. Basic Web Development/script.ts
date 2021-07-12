@@ -2,11 +2,12 @@ const API_URL = "http://localhost:3000";
 const HEADERS = {
     "Content-Type": "application/json",
 };
+let ISLOCKED = false;
 
 document.addEventListener("DOMContentLoaded", () => {
     const lock = document.getElementById('lock') as HTMLInputElement
 
-    const isLocked: boolean = lock.checked;
+    ISLOCKED = lock.checked;
 
     const permisisonsForm = document.getElementById('permissions-form');
 
@@ -25,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     handleLock(lock, popUp);
 
-    handlePopUp(isLocked, popUp);
+    handlePopUp(popUp);
 });
 
 function handleRadios(radios: NodeListOf<HTMLInputElement>, boxes: { pmsBoxes: NodeListOf<HTMLInputElement>; allBoxes: NodeListOf<HTMLInputElement>; }) {
@@ -78,44 +79,41 @@ function formSubmission (form: HTMLElement) {
 
 function handleLock(lock: HTMLInputElement, popUp: Element) {
     lock.addEventListener('change', (event) => {
-        const isLocked: boolean = (event.target as HTMLInputElement).checked;
+        ISLOCKED = lock.checked;
 
-        console.log(isLocked);
+        console.log("Changed " + ISLOCKED);
 
         popUp.classList.remove('hidden');
         popUp.classList.remove('showing');
 
-        if(isLocked) {
+        if(ISLOCKED) {
             popUp.classList.add('showing');
         } else {
             popUp.classList.add('hidden');
         }
 
-        handlePopUp(isLocked, popUp);
-    })
+    });
 }
 
-function handlePopUp(isLocked: boolean, popUp: Element) {
-    if(isLocked) {
+function handlePopUp(popUp: Element) {
+    if(ISLOCKED) {
         popUp.classList.add('showing');
         popUp.classList.remove('hidden');
+    }
 
-        popUp.removeEventListener('click', () => {});
-    } else {
-        popUp.addEventListener('click', () => {
-            console.log(isLocked);
+    popUp.addEventListener('click', () => {
+        if(!this.ISLOCKED) {
             popUp.classList.add('showing');
             popUp.classList.remove('hidden');
-    
-            popUp.addEventListener('mouseleave', () => {
-                console.log(isLocked);
-                popUp.classList.add('hidden');
-                popUp.classList.remove('showing');
-    
-                popUp.removeEventListener('mouseleave', () => {});
-            });
-        });
-    }
+        }
+    });
+
+    popUp.addEventListener('mouseleave', () => {
+        if(!this.ISLOCKED) {
+            popUp.classList.add('hidden');
+            popUp.classList.remove('showing');
+        }
+    });
 }
 
 function changeBoxesState(boxes: NodeListOf<HTMLInputElement> , state: boolean) {
