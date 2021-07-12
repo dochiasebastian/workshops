@@ -70,13 +70,13 @@ formSubmission = (form) => {
 handlePopUp = () => {
     const popUp = document.getElementsByClassName('preferences')[0];
 
-    console.log(popUp);
-
     popUp.addEventListener('click', () => {
-        popUp.style.bottom = '0px';
+        popUp.classList.add('showing');
+        popUp.classList.remove('hidden');
 
         popUp.addEventListener('mouseleave', () => {
-            popUp.style.bottom = '-450px';
+            popUp.classList.add('hidden');
+            popUp.classList.remove('showing');
 
             popUp.removeEventListener('mouseleave', () => {});
         });
