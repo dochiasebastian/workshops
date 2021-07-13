@@ -129,6 +129,12 @@ input[type="text"] {
     counter-increment: checkedCount;
 }
 
+#text-alert {
+    color: brown;
+    float: right;
+    margin-right: 7%;
+}
+
 .spinner-grid {
     width: 100px;
     height: 100px;

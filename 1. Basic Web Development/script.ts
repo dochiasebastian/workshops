@@ -141,6 +141,13 @@ function submitCreation(form: HTMLElement, permissions: Permission[]) {
     const type = document.querySelector('input[type=radio][name=presetC]:checked').id;
     const text = (document.getElementById('permName') as HTMLInputElement).value;
 
+    if(!text){
+        document.getElementById('text-alert').classList.remove('no-display');
+        return;
+    } else {
+        document.getElementById('text-alert').classList.add('no-display');
+    }
+
     permissions.push(new Permission(text, type));
 
     createPermissionsForm(permissions, form);
