@@ -9,10 +9,6 @@ body {
     position: relative;
 }
 
-#permissions-form :checked[type="checkbox"] {
-    counter-increment: checkedCount;
-}
-
 button[type="submit"] {
     font-size: large;
 }
@@ -127,6 +123,10 @@ input[type="text"] {
 
 .no-display {
     display: none;
+}
+
+#permissions-form :checked[type="checkbox"] {
+    counter-increment: checkedCount;
 }
 
 .spinner-grid {

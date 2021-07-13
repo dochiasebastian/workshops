@@ -8,7 +8,7 @@ let randomGenerator = getRandomID();
 
 document.addEventListener("DOMContentLoaded", () => {
     popUpRoutine();
-    
+
     permissionsRoutine();
 
     radiosRoutine();
@@ -33,11 +33,9 @@ function popUpRoutine() {
 }
 
 function radiosRoutine() {
-    const radios = document.querySelectorAll('input[name="preset"]') as NodeListOf<HTMLInputElement>;
-
     this.BOXES = getBoxes();
 
-    handleRadios(radios);
+    handleRadios();
 }
 
 function getBoxes() {
@@ -64,7 +62,7 @@ function createPermissionsForm(permissions: Permission[], form: HTMLElement) {
         newInput.setAttribute('name', element.type);
         newInput.setAttribute('type', 'checkbox');
 
-        if(element.type == "permissionNss") {
+        if (element.type == "permissionNss") {
             newInput.click();
             newInput.disabled = true;
         }
@@ -79,63 +77,73 @@ function createPermissionsForm(permissions: Permission[], form: HTMLElement) {
     this.BOXES = getBoxes();
 }
 
-function handleRadios(radios: NodeListOf<HTMLInputElement>) {
-    radios.forEach(radio => {
-        radio.addEventListener('change', event => {
+function handleRadios() {
+    document.addEventListener('change', event => {
+        if((event.target as HTMLInputElement).name == "preset") {
             switch ((event.target as HTMLInputElement).value) {
                 case "All":
                     this.changeBoxesState(this.BOXES.pmsBoxes, true);
                     this.changeBoxesState(this.BOXES.allBoxes, true);
                     break;
-
+    
                 case "Permissive":
                     this.changeBoxesState(this.BOXES.pmsBoxes, true);
                     this.changeBoxesState(this.BOXES.allBoxes, false);
                     break;
-
+    
                 case "Necessary":
                     this.changeBoxesState(this.BOXES.pmsBoxes, false);
                     this.changeBoxesState(this.BOXES.allBoxes, false);
                     break;
-
+    
                 default:
                     console.log("#ERROR");
                     break;
             }
-        });
+        }
     });
 }
 
-function formSubmission (form: HTMLElement, permissions: Permission[]) {
+function formSubmission(form: HTMLElement, permissions: Permission[]) {
     document.addEventListener('submit', (event: Event) => {
         event.preventDefault();
-        if((event.target as HTMLElement).id == "permissions-form") {
-            let messageData: {id: string, status: boolean}[] = [];
 
-            permissions.forEach(element => {
-                let checkedStatus = (document.getElementById(element.id) as HTMLInputElement).checked;
-       
-                let newData = {"id": element.id, "status": checkedStatus};
-    
-                messageData.push(newData);
-            });
-    
-            const messageJSON = JSON.stringify(messageData);
-    
-            fetch(API_URL, { method: 'POST', headers: HEADERS, body: messageJSON })
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch((error) => console.error('Error:', error));
+        if ((event.target as HTMLElement).id == "permissions-form") {
+            submitPermissions(form, permissions);
 
-        } else if((event.target as HTMLElement).id == "creation-form") {
-            const type = document.querySelector('input[type=radio][name=presetC]:checked').id;
-            const text = (document.getElementById('permName') as HTMLInputElement).value;
+        } else if ((event.target as HTMLElement).id == "creation-form") {
+            submitCreation(form, permissions);
 
-            permissions.push(new Permission(text, type));
-
-            createPermissionsForm(permissions, form);
         }
     });
+}
+
+function submitPermissions(form: HTMLElement, permissions: Permission[]) {
+    let messageData: { id: string, status: boolean }[] = [];
+
+    permissions.forEach(element => {
+        let checkedStatus = (document.getElementById(element.id) as HTMLInputElement).checked;
+
+        let newData = { "id": element.id, "status": checkedStatus };
+
+        messageData.push(newData);
+    });
+
+    const messageJSON = JSON.stringify(messageData);
+
+    fetch(API_URL, { method: 'POST', headers: HEADERS, body: messageJSON })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch((error) => console.error('Error:', error));
+}
+
+function submitCreation(form: HTMLElement, permissions: Permission[]) {
+    const type = document.querySelector('input[type=radio][name=presetC]:checked').id;
+    const text = (document.getElementById('permName') as HTMLInputElement).value;
+
+    permissions.push(new Permission(text, type));
+
+    createPermissionsForm(permissions, form);
 }
 
 function handleLock(lock: HTMLInputElement, popUp: Element) {
@@ -145,7 +153,7 @@ function handleLock(lock: HTMLInputElement, popUp: Element) {
         popUp.classList.remove('hidden');
         popUp.classList.remove('showing');
 
-        if(ISLOCKED) {
+        if (ISLOCKED) {
             popUp.classList.add('showing');
         } else {
             popUp.classList.add('hidden');
@@ -155,27 +163,27 @@ function handleLock(lock: HTMLInputElement, popUp: Element) {
 }
 
 function handlePopUp(popUp: Element) {
-    if(ISLOCKED) {
+    if (ISLOCKED) {
         popUp.classList.add('showing');
         popUp.classList.remove('hidden');
     }
 
     popUp.addEventListener('click', () => {
-        if(!this.ISLOCKED) {
+        if (!this.ISLOCKED) {
             popUp.classList.add('showing');
             popUp.classList.remove('hidden');
         }
     });
 
     popUp.addEventListener('mouseleave', () => {
-        if(!this.ISLOCKED) {
+        if (!this.ISLOCKED) {
             popUp.classList.add('hidden');
             popUp.classList.remove('showing');
         }
     });
 }
 
-function changeBoxesState(boxes: NodeListOf<HTMLInputElement> , state: boolean) {
+function changeBoxesState(boxes: NodeListOf<HTMLInputElement>, state: boolean) {
     boxes.forEach(box => {
         box.checked = state;
     });
@@ -186,7 +194,7 @@ function getRandomID() {
 
     function getNumber() {
         const randomNo = Math.floor(Math.random() * 1000);
-        if(used.includes(randomNo)) {
+        if (used.includes(randomNo)) {
             getNumber();
         }
         used.push(randomNo);
@@ -209,7 +217,7 @@ function permissionsSeeder(permissions: Permission[]) {
 
 function removeChildren(el: HTMLElement) {
     let child = el.lastElementChild;
-    while(child) {
+    while (child) {
         el.removeChild(child);
         child = el.lastElementChild;
     }
