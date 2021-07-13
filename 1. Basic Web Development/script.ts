@@ -193,14 +193,14 @@ function getRandomID() {
     let used: number[] = [];
 
     function getNumber() {
-        const randomNo = Math.floor(Math.random() * 1000);
-        if (used.includes(randomNo)) {
-            getNumber();
-        }
+        let randomNo = Math.floor(Math.random() * 1000);
+        while (used.includes(randomNo)) {
+            randomNo = Math.floor(Math.random() * 1000);
+        } 
+
         used.push(randomNo);
         return randomNo;
     }
-
     return getNumber;
 }
 
