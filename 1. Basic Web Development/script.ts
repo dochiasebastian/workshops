@@ -140,6 +140,15 @@ function getRandomID() {
     return getNumber;
 }
 
+function permisisonsSeeder(permissions: Permission[]) {
+    permissions.push(new Permission("Send all your data to Mr Zuck", "permissionNss"));
+    permissions.push(new Permission("Record and store all private interactions", "permissionNss"));
+    permissions.push(new Permission("Harvest device specifications", "permissionPms"));
+    permissions.push(new Permission("Laugh at your poor life choices", "permissionPms"));
+    permissions.push(new Permission("Send you daily monke memes", "permissionAll"));
+    permissions.push(new Permission("Read Berserk by Kentaro Miura on your behalf", "permissionAll"));
+}
+
 class Permission {
     type: string;
     text: string;
@@ -148,10 +157,6 @@ class Permission {
     constructor(type: string, text: string) {
         this.type = type;
         this.text = text;
-        this.id = text.split(' ')[0] + 
+        this.id = text.split(' ')[0].toLowerCase() + randomGenerator();
     }
-}
-
-function permisisonsSeeder(permissions: Permission[]) {
-    permissions.push(newPer)
 }
