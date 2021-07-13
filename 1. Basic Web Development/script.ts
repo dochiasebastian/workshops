@@ -3,6 +3,7 @@ const HEADERS = {
     "Content-Type": "application/json",
 };
 let ISLOCKED = false;
+let BOXES = {};
 let randomGenerator = getRandomID();
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -14,11 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function permissionsRoutine() {
-    let permisisons: Permission[] = permisisonsSeeder([]);
-    const permisisonsForm = document.getElementById('permissions-form');
+    let permissions: Permission[] = permissionsSeeder([]);
+    const permissionsForm = document.getElementById('permissions-form');
 
-    createPermisisonsForm(permisisons, permisisonsForm);
-    formSubmission(permisisonsForm, permisisons);
+    createPermissionsForm(permissions, permissionsForm);
+    formSubmission(permissionsForm, permissions);
 }
 
 function popUpRoutine() {
@@ -34,18 +35,23 @@ function popUpRoutine() {
 function radiosRoutine() {
     const radios = document.querySelectorAll('input[name="preset"]') as NodeListOf<HTMLInputElement>;
 
-    const pmsBoxes = document.querySelectorAll('input[name="permissionPms"]') as NodeListOf<HTMLInputElement>;
-    const allBoxes = document.querySelectorAll('input[name="permissionAll"]') as NodeListOf<HTMLInputElement>;
-    const boxes = { pmsBoxes, allBoxes };
+    this.BOXES = getBoxes();
 
-    handleRadios(radios, boxes);
+    handleRadios(radios);
 }
 
-function createPermisisonsForm(permisisons: Permission[], form: HTMLElement) {
-    const permissionsList = document.getElementById("permisisons-list");
+function getBoxes() {
+    let pmsBoxes = document.querySelectorAll('input[name="permissionPms"]') as NodeListOf<HTMLInputElement>;
+    let allBoxes = document.querySelectorAll('input[name="permissionAll"]') as NodeListOf<HTMLInputElement>;
+
+    return { pmsBoxes, allBoxes };
+}
+
+function createPermissionsForm(permissions: Permission[], form: HTMLElement) {
+    const permissionsList = document.getElementById("permissions-list");
     removeChildren(permissionsList);
 
-    permisisons.forEach(element => {
+    permissions.forEach(element => {
         const newElement = document.createElement("div");
         newElement.classList.add("grid-element");
 
@@ -67,27 +73,29 @@ function createPermisisonsForm(permisisons: Permission[], form: HTMLElement) {
         newElement.appendChild(newInput);
 
         permissionsList.appendChild(newElement);
+
     });
+
+    this.BOXES = getBoxes();
 }
 
-function handleRadios(radios: NodeListOf<HTMLInputElement>, boxes: { pmsBoxes: NodeListOf<HTMLInputElement>; allBoxes: NodeListOf<HTMLInputElement>; }) {
+function handleRadios(radios: NodeListOf<HTMLInputElement>) {
     radios.forEach(radio => {
         radio.addEventListener('change', event => {
-
             switch ((event.target as HTMLInputElement).value) {
                 case "All":
-                    this.changeBoxesState(boxes.pmsBoxes, true);
-                    this.changeBoxesState(boxes.allBoxes, true);
+                    this.changeBoxesState(this.BOXES.pmsBoxes, true);
+                    this.changeBoxesState(this.BOXES.allBoxes, true);
                     break;
 
                 case "Permissive":
-                    this.changeBoxesState(boxes.pmsBoxes, true);
-                    this.changeBoxesState(boxes.allBoxes, false);
+                    this.changeBoxesState(this.BOXES.pmsBoxes, true);
+                    this.changeBoxesState(this.BOXES.allBoxes, false);
                     break;
 
                 case "Necessary":
-                    this.changeBoxesState(boxes.pmsBoxes, false);
-                    this.changeBoxesState(boxes.allBoxes, false);
+                    this.changeBoxesState(this.BOXES.pmsBoxes, false);
+                    this.changeBoxesState(this.BOXES.allBoxes, false);
                     break;
 
                 default:
@@ -99,25 +107,34 @@ function handleRadios(radios: NodeListOf<HTMLInputElement>, boxes: { pmsBoxes: N
 }
 
 function formSubmission (form: HTMLElement, permissions: Permission[]) {
-    form.addEventListener('submit', (event: Event) => {
+    document.addEventListener('submit', (event: Event) => {
         event.preventDefault();
+        if((event.target as HTMLElement).id == "permissions-form") {
+            let messageData: {id: string, status: boolean}[] = [];
 
-        let messageData: {id: string, status: boolean}[] = [];
+            permissions.forEach(element => {
+                let checkedStatus = (document.getElementById(element.id) as HTMLInputElement).checked;
+       
+                let newData = {"id": element.id, "status": checkedStatus};
+    
+                messageData.push(newData);
+            });
+    
+            const messageJSON = JSON.stringify(messageData);
+    
+            fetch(API_URL, { method: 'POST', headers: HEADERS, body: messageJSON })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch((error) => console.error('Error:', error));
 
-        permissions.forEach(element => {
-            let checkedStatus = (document.getElementById(element.id) as HTMLInputElement).checked;
-   
-            let newData = {"id": element.id, "status": checkedStatus};
+        } else if((event.target as HTMLElement).id == "creation-form") {
+            const type = document.querySelector('input[type=radio][name=presetC]:checked').id;
+            const text = (document.getElementById('permName') as HTMLInputElement).value;
 
-            messageData.push(newData);
-        });
+            permissions.push(new Permission(text, type));
 
-        const messageJSON = JSON.stringify(messageData);
-
-        fetch(API_URL, { method: 'POST', headers: HEADERS, body: messageJSON })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch((error) => console.error('Error:', error));
+            createPermissionsForm(permissions, form);
+        }
     });
 }
 
@@ -164,10 +181,6 @@ function changeBoxesState(boxes: NodeListOf<HTMLInputElement> , state: boolean) 
     });
 }
 
-function listHandler() {
-
-}
-
 function getRandomID() {
     let used: number[] = [];
 
@@ -183,7 +196,7 @@ function getRandomID() {
     return getNumber;
 }
 
-function permisisonsSeeder(permissions: Permission[]) {
+function permissionsSeeder(permissions: Permission[]) {
     permissions.push(new Permission("Send all your data to Mr Zuck", "permissionNss"));
     permissions.push(new Permission("Record and store all private interactions", "permissionNss"));
     permissions.push(new Permission("Harvest device specifications", "permissionPms"));
@@ -197,18 +210,15 @@ function permisisonsSeeder(permissions: Permission[]) {
 function removeChildren(el: HTMLElement) {
     let child = el.lastElementChild;
     while(child) {
-        console.log(child);
         el.removeChild(child);
         child = el.lastElementChild;
     }
 }
 
 class Permission {
-    text: string;
-    type: string;
     id: string;
 
-    constructor(text: string, type: string) {
+    constructor(public text: string, public type: string) {
         this.type = type;
         this.text = text;
         this.id = text.split(' ')[0].toLowerCase() + randomGenerator();

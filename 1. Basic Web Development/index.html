@@ -25,24 +25,24 @@
     </div>
     <div class="editor">
         <h1>Design your preferences pop-up!</h1>
-        <form id="creationForm">
+        <form id="creation-form">
             <h2>Cathegory</h2>
             <div>
-                <input id="allC" name="preset" type="radio" value="All" />
-                <label for="allC">All</label>
+                <input id="permissionAll" name="presetC" type="radio" value="All" />
+                <label for="permissionAll">All</label>
             </div>
             <div>
-                <input id="permissiveC" name="preset" type="radio" value="Permissive" />
-                <label for="permissiveC">Permissive</label>
+                <input id="permissionPms" name="presetC" type="radio" value="Permissive" />
+                <label for="permissionPms">Permissive</label>
             </div>
             <div>
-                <input id="necessaryC" name="preset" type="radio" value="Necessary" />
-                <label for="necessaryC">Necessary</label>
+                <input id="permissionNss" name="presetC" type="radio" value="Necessary" />
+                <label for="permissionNss">Necessary</label>
             </div>
             <h2>Permisison text</h2>
             <div class="text-input-element">
-                <label for="name">Display text</label>
-                <input id="name" name="name" type="text" />
+                <label for="permName">Display text</label>
+                <input id="permName" name="permName" type="text" />
             </div>
             <button type="submit" class="btn-confirm">Confirm</button>
         </form>
@@ -75,7 +75,7 @@
             <div class="section">
                 <h2>Permissions:</h2>
                 <form id="permissions-form">
-                    <div id="permisisons-list"></div>
+                    <div id="permissions-list"></div>
                     <p class="agreeCountDisplay">You have agreed to</p>
                     <div class="grid-element">
                         <button type="submit" class="btn-confirm">Confirm</button>
