@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div class="spinner-grid">
+    <div class="spinner-grid no-display">
         <div class="square1"></div>
         <div class="square2"></div>
         <div class="square3"></div>
@@ -23,7 +23,7 @@
         <div class="square8"></div>
         <div class="square9"></div>
     </div>
-    <div>
+    <div class="editor">
         <h1>Design your preferences pop-up!</h1>
         <form id="creationForm">
             <h2>Cathegory</h2>
@@ -40,12 +40,12 @@
                 <label for="necessaryC">Necessary</label>
             </div>
             <h2>Permisison text</h2>
-            <div>
+            <div class="text-input-element">
                 <label for="name">Display text</label>
                 <input id="name" name="name" type="text" />
             </div>
         </form>
-        <div>
+        <div class="lock">
             <input id="lock" name="lock" type="checkbox" />
             <label for="lock">Lock Pop-up</label>
         </div>
@@ -100,7 +100,7 @@
                     </div>
                     <p class="agreeCountDisplay">You have agreed to</p>
                     <div class="grid-element">
-                        <button type="submit" class="btnConfirm">Confirm</button>
+                        <button type="submit" class="btn-confirm">Confirm</button>
                         <a href="https://monkey-history.fandom.com/wiki/Water_Monke_/_Searching_For_The_Sea_Banana">Learn
                             more</a>
                     </div>

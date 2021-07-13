@@ -3,6 +3,7 @@ const HEADERS = {
     "Content-Type": "application/json",
 };
 let ISLOCKED = false;
+let randomGenerator = getRandomID();
 
 document.addEventListener("DOMContentLoaded", () => {
     const lock = document.getElementById('lock') as HTMLInputElement
@@ -81,8 +82,6 @@ function handleLock(lock: HTMLInputElement, popUp: Element) {
     lock.addEventListener('change', (event) => {
         ISLOCKED = lock.checked;
 
-        console.log("Changed " + ISLOCKED);
-
         popUp.classList.remove('hidden');
         popUp.classList.remove('showing');
 
@@ -120,4 +119,39 @@ function changeBoxesState(boxes: NodeListOf<HTMLInputElement> , state: boolean) 
     boxes.forEach(box => {
         box.checked = state;
     });
+}
+
+function listHandler() {
+
+}
+
+function getRandomID() {
+    let used: number[] = [];
+
+    function getNumber() {
+        const randomNo = Math.floor(Math.random() * 1000);
+        if(used.includes(randomNo)) {
+            getNumber();
+        }
+        used.push(randomNo);
+        return randomNo;
+    }
+
+    return getNumber;
+}
+
+class Permission {
+    type: string;
+    text: string;
+    id: string;
+
+    constructor(type: string, text: string) {
+        this.type = type;
+        this.text = text;
+        this.id = text.split(' ')[0] + 
+    }
+}
+
+function permisisonsSeeder(permissions: Permission[]) {
+    permissions.push(newPer)
 }

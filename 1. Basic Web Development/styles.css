@@ -45,6 +45,14 @@ label:lang(en) {
     transition: bottom 200ms linear 50ms;
 }
 
+.editor {
+    background-color: #F6F4F4;
+    width: 30%;
+    margin: auto;
+    margin-top: 10vh;
+    padding: 15px;
+}
+
 .hidden {
     bottom: -450px;
 }
@@ -98,14 +106,27 @@ label:lang(en) {
     justify-self: end;
 }
 
-.btnConfirm {
+input[type="text"] {
+    width: 70%;
+}
+
+.btn-confirm {
     margin-top: 15px;
     justify-self: start;
+}
+
+.lock {
+    float: right;
+    margin-top: 20px;
 }
 
 .agreeCountDisplay::after {
     content: " " counter(checkedCount) " permissions.";
     color: indigo;
+}
+
+.no-display {
+    display: none;
 }
 
 .spinner-grid {
