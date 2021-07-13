@@ -6,11 +6,15 @@ let ISLOCKED = false;
 let randomGenerator = getRandomID();
 
 document.addEventListener("DOMContentLoaded", () => {
+    let permisisons: Permission[] = permisisonsSeeder([]);
+
     const lock = document.getElementById('lock') as HTMLInputElement
 
     ISLOCKED = lock.checked;
 
     const permisisonsForm = document.getElementById('permissions-form');
+
+    createPermisisonsForm(permisisons, permisisonsForm);
 
     const radios = document.querySelectorAll('input[name="preset"]') as NodeListOf<HTMLInputElement>;
 
@@ -23,12 +27,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
     handleRadios(radios, boxes);
 
-    formSubmission(permisisonsForm);
+    formSubmission(permisisonsForm, permisisons);
 
     handleLock(lock, popUp);
 
     handlePopUp(popUp);
 });
+
+function createPermisisonsForm(permisisons: Permission[], form: HTMLElement) {
+
+
+    permisisons.forEach(element => {
+        const newElement = document.createElement("div");
+        newElement.classList.add("grid-element");
+
+        const newLabel = document.createElement("label");
+        newLabel.setAttribute('for', element.id);
+        newLabel.innerHTML = element.text;
+
+        const newInput = document.createElement("input");
+        newInput.setAttribute('id', element.id);
+        newInput.setAttribute('name', element.type);
+        newInput.setAttribute('type', 'checkbox');
+
+        if(element.type == "permissionNss") {
+            newInput.click();
+            newInput.disabled = true;
+        }
+
+        newElement.appendChild(newLabel);
+        newElement.appendChild(newInput);
+
+        document.getElementById("permisisons-list").appendChild(newElement);
+    });
+}
 
 function handleRadios(radios: NodeListOf<HTMLInputElement>, boxes: { pmsBoxes: NodeListOf<HTMLInputElement>; allBoxes: NodeListOf<HTMLInputElement>; }) {
     radios.forEach(radio => {
@@ -58,18 +90,21 @@ function handleRadios(radios: NodeListOf<HTMLInputElement>, boxes: { pmsBoxes: N
     });
 }
 
-function formSubmission (form: HTMLElement) {
+function formSubmission (form: HTMLElement, permissions: Permission[]) {
     form.addEventListener('submit', (event: Event) => {
         event.preventDefault();
 
-        const data: boolean = (document.getElementById('data') as HTMLInputElement).checked;
-        const record: boolean = (document.getElementById('record') as HTMLInputElement).checked;
-        const harvest: boolean = (document.getElementById('harvest') as HTMLInputElement).checked;
-        const laugh: boolean = (document.getElementById('laugh') as HTMLInputElement).checked;
-        const send: boolean = (document.getElementById('send') as HTMLInputElement).checked;
-        const read: boolean = (document.getElementById('read') as HTMLInputElement).checked;
+        let messageData: {id: string, status: boolean}[] = [];
 
-        const messageJSON = JSON.stringify({data, record, harvest, laugh, send, read});
+        permissions.forEach(element => {
+            let checkedStatus = (document.getElementById(element.id) as HTMLInputElement).checked;
+   
+            let newData = {"id": element.id, "status": checkedStatus};
+
+            messageData.push(newData);
+        });
+
+        const messageJSON = JSON.stringify(messageData);
 
         fetch(API_URL, { method: 'POST', headers: HEADERS, body: messageJSON })
             .then(response => response.json())
@@ -152,11 +187,11 @@ function permisisonsSeeder(permissions: Permission[]) {
 }
 
 class Permission {
-    type: string;
     text: string;
+    type: string;
     id: string;
 
-    constructor(type: string, text: string) {
+    constructor(text: string, type: string) {
         this.type = type;
         this.text = text;
         this.id = text.split(' ')[0].toLowerCase() + randomGenerator();

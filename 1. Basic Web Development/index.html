@@ -46,7 +46,7 @@
             </div>
         </form>
         <div class="lock">
-            <input id="lock" name="lock" type="checkbox" />
+            <input id="lock" name="lock" type="checkbox" checked />
             <label for="lock">Lock Pop-up</label>
         </div>
     </div>
@@ -74,30 +74,7 @@
             <div class="section">
                 <h2>Permissions:</h2>
                 <form id="permissions-form">
-                    <div class="grid-element">
-                        <label for="data">Send all your data to Mr Zuck</label>
-                        <input id="data" name="permissionNss" type="checkbox" value="data" checked disabled />
-                    </div>
-                    <div class="grid-element">
-                        <label for="record">Record and store all private interactions</label>
-                        <input id="record" name="permissionNss" type="checkbox" value="record" checked disabled />
-                    </div>
-                    <div class="grid-element">
-                        <label for="harvest">Harvest device specifications</label>
-                        <input id="harvest" name="permissionPms" type="checkbox" value="harvest" />
-                    </div>
-                    <div class="grid-element">
-                        <label for="laugh">Laugh at your poor life choices</label>
-                        <input id="laugh" name="permissionPms" type="checkbox" value="laugh" />
-                    </div>
-                    <div class="grid-element">
-                        <label for="send">Send you daily monke memes</label>
-                        <input id="send" name="permissionAll" type="checkbox" value="send" />
-                    </div>
-                    <div class="grid-element">
-                        <label for="read">Read Berserk by Kentaro Miura on your behalf</label>
-                        <input id="read" name="permissionAll" type="checkbox" value="read" />
-                    </div>
+                    <div id="permisisons-list"></div>
                     <p class="agreeCountDisplay">You have agreed to</p>
                     <div class="grid-element">
                         <button type="submit" class="btn-confirm">Confirm</button>
