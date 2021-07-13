@@ -6,37 +6,42 @@ let ISLOCKED = false;
 let randomGenerator = getRandomID();
 
 document.addEventListener("DOMContentLoaded", () => {
+    popUpRoutine();
+    
+    permissionsRoutine();
+
+    radiosRoutine()
+});
+
+function permissionsRoutine() {
     let permisisons: Permission[] = permisisonsSeeder([]);
-
-    const lock = document.getElementById('lock') as HTMLInputElement
-
-    ISLOCKED = lock.checked;
-
     const permisisonsForm = document.getElementById('permissions-form');
 
     createPermisisonsForm(permisisons, permisisonsForm);
+    formSubmission(permisisonsForm, permisisons);
+}
 
-    const radios = document.querySelectorAll('input[name="preset"]') as NodeListOf<HTMLInputElement>;
-
+function popUpRoutine() {
     const popUp = document.getElementsByClassName('preferences')[0];
+    const lock = document.getElementById('lock') as HTMLInputElement;
+
+    ISLOCKED = lock.checked;
+
+    handleLock(lock, popUp);
+    handlePopUp(popUp);
+}
+
+function radiosRoutine() {
+    const radios = document.querySelectorAll('input[name="preset"]') as NodeListOf<HTMLInputElement>;
 
     const pmsBoxes = document.querySelectorAll('input[name="permissionPms"]') as NodeListOf<HTMLInputElement>;
     const allBoxes = document.querySelectorAll('input[name="permissionAll"]') as NodeListOf<HTMLInputElement>;
-
     const boxes = { pmsBoxes, allBoxes };
 
     handleRadios(radios, boxes);
-
-    formSubmission(permisisonsForm, permisisons);
-
-    handleLock(lock, popUp);
-
-    handlePopUp(popUp);
-});
+}
 
 function createPermisisonsForm(permisisons: Permission[], form: HTMLElement) {
-
-
     permisisons.forEach(element => {
         const newElement = document.createElement("div");
         newElement.classList.add("grid-element");
