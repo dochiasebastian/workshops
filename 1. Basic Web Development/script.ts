@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     permissionsRoutine();
 
-    radiosRoutine()
+    radiosRoutine();
 });
 
 function permissionsRoutine() {
@@ -42,6 +42,9 @@ function radiosRoutine() {
 }
 
 function createPermisisonsForm(permisisons: Permission[], form: HTMLElement) {
+    const permissionsList = document.getElementById("permisisons-list");
+    removeChildren(permissionsList);
+
     permisisons.forEach(element => {
         const newElement = document.createElement("div");
         newElement.classList.add("grid-element");
@@ -63,7 +66,7 @@ function createPermisisonsForm(permisisons: Permission[], form: HTMLElement) {
         newElement.appendChild(newLabel);
         newElement.appendChild(newInput);
 
-        document.getElementById("permisisons-list").appendChild(newElement);
+        permissionsList.appendChild(newElement);
     });
 }
 
@@ -189,6 +192,15 @@ function permisisonsSeeder(permissions: Permission[]) {
     permissions.push(new Permission("Read Berserk by Kentaro Miura on your behalf", "permissionAll"));
 
     return permissions;
+}
+
+function removeChildren(el: HTMLElement) {
+    let child = el.lastElementChild;
+    while(child) {
+        console.log(child);
+        el.removeChild(child);
+        child = el.lastElementChild;
+    }
 }
 
 class Permission {
