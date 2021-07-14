@@ -58,6 +58,11 @@ label:lang(en) {
     cursor: pointer;
 }
 
+.no-decor {
+    text-decoration: none;
+    color: black;
+}
+
 .delete-btn {
     width: fit-content;
     height: fit-content;

@@ -14,6 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
     permissionsRoutine();
 
     radiosRoutine();
+
+    routingRoutine();
 });
 
 function permissionsRoutine() {
@@ -39,6 +41,28 @@ function radiosRoutine() {
     this.BOXES = getBoxes();
 
     handleRadios();
+}
+
+function routingRoutine() {
+    navigate(location.hash);
+
+    window.addEventListener('hashchange', () => {
+        navigate(location.hash);
+    });
+}
+
+function navigate(toLocation: string) {
+    if(toLocation == '#edit') {
+        document.getElementById("creation-page").classList.add("no-display");
+        document.getElementById("edit-page").classList.remove("no-display");
+    
+        document.getElementsByClassName("section")[1].classList.add("editing");
+    } else if (toLocation == '#create') {
+        document.getElementById("creation-page").classList.remove("no-display");
+        document.getElementById("edit-page").classList.add("no-display");
+    
+        document.getElementsByClassName("section")[1].classList.remove("editing");
+    }
 }
 
 function getBoxes() {
