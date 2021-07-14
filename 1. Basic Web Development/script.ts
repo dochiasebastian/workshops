@@ -52,16 +52,28 @@ function routingRoutine() {
 }
 
 function navigate(toLocation: string) {
-    if(toLocation == '#edit') {
+    if (toLocation == '#edit') {
         document.getElementById("creation-page").classList.add("no-display");
         document.getElementById("edit-page").classList.remove("no-display");
-    
+
         document.getElementsByClassName("section")[1].classList.add("editing");
+
+        document.getElementsByClassName("editor")[0].classList.remove('no-display');
+        document.getElementsByClassName("preferences")[0].classList.remove('presentation');
+        document.getElementsByClassName("begin-arrow")[0].classList.add('no-display');
     } else if (toLocation == '#create') {
         document.getElementById("creation-page").classList.remove("no-display");
         document.getElementById("edit-page").classList.add("no-display");
-    
+
         document.getElementsByClassName("section")[1].classList.remove("editing");
+
+        document.getElementsByClassName("editor")[0].classList.remove('no-display');
+        document.getElementsByClassName("preferences")[0].classList.remove('presentation');
+        document.getElementsByClassName("begin-arrow")[0].classList.add('no-display');
+    } else {
+        document.getElementsByClassName("editor")[0].classList.add('no-display');
+        document.getElementsByClassName("preferences")[0].classList.add('presentation');
+        document.getElementsByClassName("begin-arrow")[0].classList.remove('no-display');
     }
 }
 
@@ -75,9 +87,9 @@ function getBoxes() {
 function handleModification(form: HTMLElement) {
     document.addEventListener('click', event => {
         const target = event.target as HTMLInputElement
-        if(target.classList.contains('delete-btn') && target.classList.contains('edit-btn')) {
+        if (target.classList.contains('delete-btn') && target.classList.contains('edit-btn')) {
             document.getElementById('edit-form').classList.remove('no-display');
-            
+
             const elemenToEdit: Permission = this.PERMISSIONS.filter((perm: Permission) => perm.id == target.name)[0];
             this.NOWEDITING = elemenToEdit;
 
@@ -85,16 +97,10 @@ function handleModification(form: HTMLElement) {
 
             (document.getElementById('permNameEdit') as HTMLInputElement).value = elemenToEdit.text;
             createPermissionsForm(form);
-        } else if(target.classList.contains('delete-btn')) {
+        } else if (target.classList.contains('delete-btn')) {
             this.PERMISSIONS = this.PERMISSIONS.filter((el: Permission) => el.id != target.name);
             createPermissionsForm(form);
-        } else if(target.id == 'begin-button') {
-            document.getElementsByClassName("editor")[0].classList.remove('no-display');
-            document.getElementsByClassName("preferences")[0].classList.remove('presentation');
-            document.getElementsByClassName("begin-arrow")[0].classList.add('no-display');
         }
-
-        
     });
 }
 
@@ -147,23 +153,23 @@ function createPermissionsForm(form: HTMLElement) {
 
 function handleRadios() {
     document.addEventListener('change', event => {
-        if((event.target as HTMLInputElement).name == "preset") {
+        if ((event.target as HTMLInputElement).name == "preset") {
             switch ((event.target as HTMLInputElement).value) {
                 case "All":
                     this.changeBoxesState(this.BOXES.pmsBoxes, true);
                     this.changeBoxesState(this.BOXES.allBoxes, true);
                     break;
-    
+
                 case "Permissive":
                     this.changeBoxesState(this.BOXES.pmsBoxes, true);
                     this.changeBoxesState(this.BOXES.allBoxes, false);
                     break;
-    
+
                 case "Necessary":
                     this.changeBoxesState(this.BOXES.pmsBoxes, false);
                     this.changeBoxesState(this.BOXES.allBoxes, false);
                     break;
-    
+
                 default:
                     console.log("#ERROR");
                     break;
@@ -211,7 +217,7 @@ function submitCreation(form: HTMLElement) {
     const type = document.querySelector('input[type=radio][name=presetC]:checked').id;
     const text = (document.getElementById('permName') as HTMLInputElement).value;
 
-    if(!text){
+    if (!text) {
         document.getElementById('text-alert').classList.remove('no-display');
         return;
     } else {
@@ -223,11 +229,11 @@ function submitCreation(form: HTMLElement) {
     createPermissionsForm(form);
 }
 
-function submitEdit(form:HTMLElement) {
+function submitEdit(form: HTMLElement) {
     const type = document.querySelector('input[type=radio][name=presetE]:checked').id;
     const text = (document.getElementById('permNameEdit') as HTMLInputElement).value;
 
-    if(!text){
+    if (!text) {
         document.getElementById('text-alert-edit').classList.remove('no-display');
         return;
     } else {
@@ -240,7 +246,7 @@ function submitEdit(form:HTMLElement) {
     this.PERMISSIONS[index].text = text;
 
     console.log(this.PERMISSIONS[index]);
-    
+
     document.getElementById('edit-form').classList.add('no-display');
 
     createPermissionsForm(form);
@@ -296,7 +302,7 @@ function getRandomID() {
         let randomNo = Math.floor(Math.random() * 1000);
         while (used.includes(randomNo)) {
             randomNo = Math.floor(Math.random() * 1000);
-        } 
+        }
 
         used.push(randomNo);
         return randomNo;
