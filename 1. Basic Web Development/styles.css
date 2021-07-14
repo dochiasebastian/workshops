@@ -144,7 +144,7 @@ label:lang(en) {
     grid-row: 1;
 }
 
-.preferences .editing .grid-element {
+.preferences .editing .grid-element:not(.except) {
     grid-template-columns:10px 10px  1fr 15px;
 }
 
