@@ -81,9 +81,9 @@ function createPermissionsForm(permissions: Permission[], form: HTMLElement) {
             newInput.disabled = true;
         }
 
-        const newButton = document.createElement("input");
-        newButton.setAttribute('type', 'image');
-        newButton.setAttribute('src', './icons/remove.svg');
+        const newButton = document.createElement("button");
+        newButton.setAttribute('type', 'button');
+        newButton.textContent = 'X';
         newButton.setAttribute('name', element.id);
         newButton.classList.add('delete-btn');
 
@@ -96,7 +96,6 @@ function createPermissionsForm(permissions: Permission[], form: HTMLElement) {
     });
 
     this.BOXES = getBoxes();
-    handleSelect(permissions);
 }
 
 function handleRadios() {
@@ -209,21 +208,6 @@ function handlePopUp(popUp: Element) {
             popUp.classList.add('hidden');
             popUp.classList.remove('showing');
         }
-    });
-}
-
-function handleSelect(permissions: Permission[]) {
-    const dropDown = document.getElementById("idSelect");
-
-    removeChildren(dropDown);
-
-    permissions.forEach(permission => {
-        let option = document.createElement('option');
-
-        option.value = permission.id;
-        option.innerHTML = permission.id;
-
-        dropDown.appendChild(option);
     });
 }
 

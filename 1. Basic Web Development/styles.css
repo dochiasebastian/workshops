@@ -31,7 +31,7 @@ label:lang(en) {
 }
 
 .preferences {
-    width: 30%;
+    width: 40%;
     background-color: #F6F4F4;
     position: fixed;
     margin-left: auto;
@@ -59,7 +59,12 @@ label:lang(en) {
 }
 
 .delete-btn {
-    width: 10px;
+    width: fit-content;
+    height: fit-content;
+    border: none;
+    background: none;
+    color: red;
+    cursor: pointer;
 }
 
 .hidden {
@@ -91,11 +96,11 @@ label:lang(en) {
     margin-top: 10px;
 }
 
-.section input[type="image"] {
+.section button[type="button"] {
     display: none;
 }
 
-.section.editing input[type="image"] {
+.section.editing button[type="button"] {
     display: inline-block;
 }
 
@@ -118,6 +123,7 @@ label:lang(en) {
 .grid-element label {
     justify-self: start;
     margin-right: 10px;
+    margin-left: 10px;
     width: 100%;
 }
 
@@ -128,13 +134,12 @@ label:lang(en) {
     align-content: center;
 }
 
-.grid-element input:not(input[type="image"]) {
+.grid-element input:not(input[type="submit"]) {
     justify-self: end;
 }
 
-.grid-element input[type="image"] {
+.grid-element input[type="submit"] {
     justify-self: start;
-    
 }
 
 input[type="text"] {
