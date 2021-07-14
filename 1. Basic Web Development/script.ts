@@ -100,6 +100,13 @@ function handleModification(form: HTMLElement) {
         } else if (target.classList.contains('delete-btn')) {
             this.PERMISSIONS = this.PERMISSIONS.filter((el: Permission) => el.id != target.name);
             createPermissionsForm(form);
+
+            console.log(JSON.stringify({name: target.name}));
+
+            fetch(API_URL + '/pref/delete', { method: 'DELETE', headers: HEADERS, body: JSON.stringify({name: target.name}) })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch((error) => console.error('Error:', error));
         }
     });
 }

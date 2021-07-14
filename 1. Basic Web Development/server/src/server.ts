@@ -2,9 +2,10 @@ import express = require('express');
 import color from 'colorts';
 import cors = require("cors");
 import { Permission } from './Model/Permission';
+import { seeder } from './Util/Seeder';
 
 const app = express();
-let permissions: Permission[] = [];
+let permissions: Permission[] = seeder();
 
 app.use(cors());
 
@@ -33,7 +34,9 @@ app.post('/pref/create', (req, res) => {
 });
 
 app.delete('/pref/delete', (req, res) => {
-    permissions = permissions.filter((el: Permission) => el.id !== req.body.target.name);
+    permissions = permissions.filter((el: Permission) => el.id !== req.body.name);
+
+    console.log(req.body.name);
 
     res.status(200).json({
         success: true,
