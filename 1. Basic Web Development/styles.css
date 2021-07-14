@@ -93,7 +93,7 @@ label:lang(en) {
 }
 
 .editing {
-    
+    border: none;
 }
 
 .section {
@@ -160,6 +160,21 @@ input[type="text"] {
     margin-top: 20px;
 }
 
+.begin-arrow {
+    width: 200px;
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    margin: auto;
+    margin-top: 18vh;
+}
+
+.begin-arrow *:not([type="button"]){
+    margin-top: 2px;
+    margin-bottom: 2px;
+    color: red;
+}
+
 .agreeCountDisplay::after {
     content: " " counter(checkedCount) " permissions.";
     color: indigo;
@@ -193,6 +208,10 @@ input[type="text"] {
     float: left;
     -webkit-animation: squareGridScaleDelay 1.3s infinite ease-in-out;
     animation: squareGridScaleDelay 1.3s infinite ease-in-out;
+}
+
+.presentation {
+    bottom: 20vh !important;
 }
 
 .spinner-grid .square1 {

@@ -60,11 +60,17 @@ function handleModification(form: HTMLElement) {
             document.getElementById(elemenToEdit.type + 'Edit').click();
 
             (document.getElementById('permNameEdit') as HTMLInputElement).value = elemenToEdit.text;
+            createPermissionsForm(form);
         } else if(target.classList.contains('delete-btn')) {
             this.PERMISSIONS = this.PERMISSIONS.filter((el: Permission) => el.id != target.name);
+            createPermissionsForm(form);
+        } else if(target.id == 'begin-button') {
+            document.getElementsByClassName("editor")[0].classList.remove('no-display');
+            document.getElementsByClassName("preferences")[0].classList.remove('presentation');
+            document.getElementsByClassName("begin-arrow")[0].classList.add('no-display');
         }
 
-        createPermissionsForm(form);
+        
     });
 }
 
