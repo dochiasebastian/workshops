@@ -67,6 +67,10 @@ label:lang(en) {
     cursor: pointer;
 }
 
+.edit-btn {
+    color: blue;
+}
+
 .hidden {
     bottom: -450px;
 }
@@ -89,7 +93,7 @@ label:lang(en) {
 }
 
 .editing {
-
+    
 }
 
 .section {
@@ -117,7 +121,7 @@ label:lang(en) {
 }
 
 .preferences .editing .grid-element {
-    grid-template-columns:10px  1fr 15px;
+    grid-template-columns:10px 10px  1fr 15px;
 }
 
 .grid-element label {

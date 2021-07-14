@@ -5,6 +5,7 @@ const HEADERS = {
 let ISLOCKED = false;
 let BOXES = {};
 let PERMISSIONS: Permission[] = [];
+let NOWEDITING: Permission;
 let randomGenerator = getRandomID();
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -21,7 +22,7 @@ function permissionsRoutine() {
     permissionsSeeder();
     createPermissionsForm(permissionsForm);
     formSubmission(permissionsForm);
-    handleDeletion(permissionsForm);
+    handleModification(permissionsForm);
 }
 
 function popUpRoutine() {
@@ -47,10 +48,19 @@ function getBoxes() {
     return { pmsBoxes, allBoxes };
 }
 
-function handleDeletion(form: HTMLElement) {
+function handleModification(form: HTMLElement) {
     document.addEventListener('click', event => {
         const target = event.target as HTMLInputElement
-        if(target.classList.contains('delete-btn')) {
+        if(target.classList.contains('delete-btn') && target.classList.contains('edit-btn')) {
+            document.getElementById('edit-form').classList.remove('no-display');
+            
+            const elemenToEdit: Permission = this.PERMISSIONS.filter((perm: Permission) => perm.id == target.name)[0];
+            this.NOWEDITING = elemenToEdit;
+
+            document.getElementById(elemenToEdit.type + 'Edit').click();
+
+            (document.getElementById('permNameEdit') as HTMLInputElement).value = elemenToEdit.text;
+        } else if(target.classList.contains('delete-btn')) {
             this.PERMISSIONS = this.PERMISSIONS.filter((el: Permission) => el.id != target.name);
         }
 
@@ -80,13 +90,21 @@ function createPermissionsForm(form: HTMLElement) {
             newInput.disabled = true;
         }
 
-        const newButton = document.createElement("button");
-        newButton.setAttribute('type', 'button');
-        newButton.textContent = 'X';
-        newButton.setAttribute('name', element.id);
-        newButton.classList.add('delete-btn');
+        const newButtonDelete = document.createElement("button");
+        newButtonDelete.setAttribute('type', 'button');
+        newButtonDelete.textContent = 'X';
+        newButtonDelete.setAttribute('name', element.id);
+        newButtonDelete.classList.add('delete-btn');
 
-        newElement.appendChild(newButton);
+        const newButtonEdit = document.createElement("button");
+        newButtonEdit.setAttribute('type', 'button');
+        newButtonEdit.textContent = 'E';
+        newButtonEdit.setAttribute('name', element.id);
+        newButtonEdit.classList.add('delete-btn');
+        newButtonEdit.classList.add('edit-btn');
+
+        newElement.appendChild(newButtonEdit);
+        newElement.appendChild(newButtonDelete);
         newElement.appendChild(newLabel);
         newElement.appendChild(newInput);
 
@@ -134,6 +152,8 @@ function formSubmission(form: HTMLElement) {
         } else if ((event.target as HTMLElement).id == "creation-form") {
             submitCreation(form);
 
+        } else if ((event.target as HTMLElement).id == "edit-form") {
+            submitEdit(form);
         }
     });
 }
@@ -169,6 +189,29 @@ function submitCreation(form: HTMLElement) {
     }
 
     this.PERMISSIONS.push(new Permission(text, type));
+
+    createPermissionsForm(form);
+}
+
+function submitEdit(form:HTMLElement) {
+    const type = document.querySelector('input[type=radio][name=presetE]:checked').id;
+    const text = (document.getElementById('permNameEdit') as HTMLInputElement).value;
+
+    if(!text){
+        document.getElementById('text-alert-edit').classList.remove('no-display');
+        return;
+    } else {
+        document.getElementById('text-alert-edit').classList.add('no-display');
+    }
+
+    const index = this.PERMISSIONS.findIndex((perm: Permission) => perm.id == this.NOWEDITING.id);
+
+    this.PERMISSIONS[index].type = type.replace('Edit', '');
+    this.PERMISSIONS[index].text = text;
+
+    console.log(this.PERMISSIONS[index]);
+    
+    document.getElementById('edit-form').classList.add('no-display');
 
     createPermissionsForm(form);
 }
@@ -253,7 +296,6 @@ function clickToAdd() {
     document.getElementById("edit-page").classList.add("no-display");
 
     document.getElementsByClassName("section")[1].classList.remove("editing");
-
 }
 
 function clickToEdit() {
