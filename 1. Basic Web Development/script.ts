@@ -245,8 +245,6 @@ function submitEdit(form: HTMLElement) {
     this.PERMISSIONS[index].type = type.replace('Edit', '');
     this.PERMISSIONS[index].text = text;
 
-    console.log(this.PERMISSIONS[index]);
-
     document.getElementById('edit-form').classList.add('no-display');
 
     createPermissionsForm(form);

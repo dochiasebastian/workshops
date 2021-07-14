@@ -1,8 +1,10 @@
 import express = require('express');
 import color from 'colorts';
 import cors = require("cors");
+import { Permission } from './Model/Permission';
 
 const app = express();
+let permissions: Permission[] = [];
 
 app.use(cors());
 
@@ -18,6 +20,34 @@ app.post('/', (req, res) => {
     res.status(200).json({
         success: true,
         data: req.body
+    });
+});
+
+app.post('/pref/create', (req, res) => {
+    permissions.push(req.body);
+
+    res.status(200).json({
+        success: true,
+        data: permissions
+    });
+});
+
+app.delete('/pref/delete', (req, res) => {
+    permissions = permissions.filter((el: Permission) => el.id !== req.body.target.name);
+
+    res.status(200).json({
+        success: true,
+        data: permissions
+    });
+});
+
+app.put('pref/update', (req, res) => {
+    permissions[req.body.index].type = req.body.type;
+    permissions[req.body.index].text = req.body.text;
+
+    res.status(200).json({
+        success: true,
+        data: permissions
     });
 });
 
