@@ -24,29 +24,40 @@
         <div class="square9"></div>
     </div>
     <div class="editor">
-        <h1>Design your preferences pop-up!</h1>
-        <form id="creation-form">
-            <h2>Cathegory</h2>
+        <div id="creation-page" class="no-display">
+            <p class="to-edit" onclick="clickToEdit()">To edit ></p>
+            <h1>Design your preferences pop-up</h1>
+            <form id="creation-form">
+                <h2>Cathegory</h2>
+                <div>
+                    <input id="permissionAll" name="presetC" type="radio" value="All" />
+                    <label for="permissionAll">All</label>
+                </div>
+                <div>
+                    <input id="permissionPms" name="presetC" type="radio" value="Permissive" />
+                    <label for="permissionPms">Permissive</label>
+                </div>
+                <div>
+                    <input id="permissionNss" name="presetC" type="radio" value="Necessary" checked />
+                    <label for="permissionNss">Necessary</label>
+                </div>
+                <h2>Permisison text</h2>
+                <div class="text-input-element">
+                    <label for="permName">Display text</label>
+                    <input id="permName" name="permName" type="text" />
+                </div>
+                <p id="text-alert" class="no-display">Text is required!</p>
+                <button type="submit" class="btn-confirm">Confirm</button>
+            </form>
+        </div>
+        <div id="edit-page" class="">
+            <p class="to-create" onclick="clickToAdd()">&lt; To create</p>
+            <h1>Edit existing preferences</h1>
             <div>
-                <input id="permissionAll" name="presetC" type="radio" value="All" />
-                <label for="permissionAll">All</label>
+                <label for="idSelect">Select preference to edit</label>
+                <select name="idSelect" id="idSelect"></select>
             </div>
-            <div>
-                <input id="permissionPms" name="presetC" type="radio" value="Permissive" />
-                <label for="permissionPms">Permissive</label>
-            </div>
-            <div>
-                <input id="permissionNss" name="presetC" type="radio" value="Necessary" checked/>
-                <label for="permissionNss">Necessary</label>
-            </div>
-            <h2>Permisison text</h2>
-            <div class="text-input-element">
-                <label for="permName">Display text</label>
-                <input id="permName" name="permName" type="text" />
-            </div>
-            <p id="text-alert" class="no-display">Text is required!</p>
-            <button type="submit" class="btn-confirm">Confirm</button>
-        </form>
+        </div>
         <div class="lock">
             <input id="lock" name="lock" type="checkbox" checked />
             <label for="lock">Lock Pop-up</label>
@@ -73,7 +84,7 @@
                     </div>
                 </form>
             </div>
-            <div class="section">
+            <div class="section editing">
                 <h2>Permissions:</h2>
                 <form id="permissions-form">
                     <div id="permissions-list"></div>
@@ -88,4 +99,5 @@
         </div>
     </div>
 </body>
+
 </html>

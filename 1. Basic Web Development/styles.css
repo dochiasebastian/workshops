@@ -49,6 +49,19 @@ label:lang(en) {
     padding: 15px;
 }
 
+.to-edit {
+    float: right;
+    cursor: pointer;
+}
+
+.to-create {
+    cursor: pointer;
+}
+
+.delete-btn {
+    width: 10px;
+}
+
 .hidden {
     bottom: -450px;
 }
@@ -70,8 +83,20 @@ label:lang(en) {
     text-align: center;
 }
 
+.editing {
+
+}
+
 .section {
     margin-top: 10px;
+}
+
+.section input[type="image"] {
+    display: none;
+}
+
+.section.editing input[type="image"] {
+    display: inline-block;
 }
 
 .bar {
@@ -86,9 +111,14 @@ label:lang(en) {
     grid-row: 1;
 }
 
+.preferences .editing .grid-element {
+    grid-template-columns:10px  1fr 15px;
+}
+
 .grid-element label {
     justify-self: start;
     margin-right: 10px;
+    width: 100%;
 }
 
 .grid-element a {
@@ -98,8 +128,13 @@ label:lang(en) {
     align-content: center;
 }
 
-.grid-element input {
+.grid-element input:not(input[type="image"]) {
     justify-self: end;
+}
+
+.grid-element input[type="image"] {
+    justify-self: start;
+    
 }
 
 input[type="text"] {

@@ -20,6 +20,7 @@ function permissionsRoutine() {
 
     createPermissionsForm(permissions, permissionsForm);
     formSubmission(permissionsForm, permissions);
+    handleDeletion(permissionsForm, permissions);
 }
 
 function popUpRoutine() {
@@ -45,6 +46,19 @@ function getBoxes() {
     return { pmsBoxes, allBoxes };
 }
 
+function handleDeletion(form: HTMLElement, permissions: Permission[]) {
+    document.addEventListener('click', event => {
+        const target = event.target as HTMLInputElement
+        if(target.classList.contains('delete-btn')) {
+            console.log(target.name);
+            permissions = permissions.filter(el => el.id != target.name);
+            console.log(permissions);
+        }
+
+        createPermissionsForm(permissions, form);
+    });
+}
+
 function createPermissionsForm(permissions: Permission[], form: HTMLElement) {
     const permissionsList = document.getElementById("permissions-list");
     removeChildren(permissionsList);
@@ -67,6 +81,13 @@ function createPermissionsForm(permissions: Permission[], form: HTMLElement) {
             newInput.disabled = true;
         }
 
+        const newButton = document.createElement("input");
+        newButton.setAttribute('type', 'image');
+        newButton.setAttribute('src', './icons/remove.svg');
+        newButton.setAttribute('name', element.id);
+        newButton.classList.add('delete-btn');
+
+        newElement.appendChild(newButton);
         newElement.appendChild(newLabel);
         newElement.appendChild(newInput);
 
@@ -75,6 +96,7 @@ function createPermissionsForm(permissions: Permission[], form: HTMLElement) {
     });
 
     this.BOXES = getBoxes();
+    handleSelect(permissions);
 }
 
 function handleRadios() {
@@ -190,6 +212,21 @@ function handlePopUp(popUp: Element) {
     });
 }
 
+function handleSelect(permissions: Permission[]) {
+    const dropDown = document.getElementById("idSelect");
+
+    removeChildren(dropDown);
+
+    permissions.forEach(permission => {
+        let option = document.createElement('option');
+
+        option.value = permission.id;
+        option.innerHTML = permission.id;
+
+        dropDown.appendChild(option);
+    });
+}
+
 function changeBoxesState(boxes: NodeListOf<HTMLInputElement>, state: boolean) {
     boxes.forEach(box => {
         box.checked = state;
@@ -228,6 +265,21 @@ function removeChildren(el: HTMLElement) {
         el.removeChild(child);
         child = el.lastElementChild;
     }
+}
+
+function clickToAdd() {
+    document.getElementById("creation-page").classList.remove("no-display");
+    document.getElementById("edit-page").classList.add("no-display");
+
+    document.getElementsByClassName("section")[1].classList.remove("editing");
+
+}
+
+function clickToEdit() {
+    document.getElementById("creation-page").classList.add("no-display");
+    document.getElementById("edit-page").classList.remove("no-display");
+
+    document.getElementsByClassName("section")[1].classList.add("editing");
 }
 
 class Permission {
