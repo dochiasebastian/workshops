@@ -44,7 +44,14 @@ app.delete('/pref/delete', (req, res) => {
     });
 });
 
-app.put('pref/update', (req, res) => {
+app.get('/pref', (req, res) => {
+    res.status(200).json({
+        success: true,
+        data: permissions
+    });
+})
+
+app.put('/pref/update', (req, res) => {
     permissions[req.body.index].type = req.body.type;
     permissions[req.body.index].text = req.body.text;
 

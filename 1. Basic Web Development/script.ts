@@ -21,10 +21,17 @@ document.addEventListener("DOMContentLoaded", () => {
 function permissionsRoutine() {
     const permissionsForm = document.getElementById('permissions-form');
 
-    permissionsSeeder();
-    createPermissionsForm(permissionsForm);
-    formSubmission(permissionsForm);
-    handleModification(permissionsForm);
+    load();
+    fetch(API_URL + '/pref', { method: 'GET', headers: HEADERS })
+        .then(response => response.json())
+        .then(data => {
+            this.PERMISSIONS = data.data;
+            createPermissionsForm(permissionsForm);
+            formSubmission(permissionsForm);
+            handleModification(permissionsForm);
+            stopLoad();
+        })
+        .catch((error) => console.error('Error:', error));
 }
 
 function popUpRoutine() {
@@ -101,11 +108,13 @@ function handleModification(form: HTMLElement) {
             this.PERMISSIONS = this.PERMISSIONS.filter((el: Permission) => el.id != target.name);
             createPermissionsForm(form);
 
-            console.log(JSON.stringify({name: target.name}));
-
+            load();
             fetch(API_URL + '/pref/delete', { method: 'DELETE', headers: HEADERS, body: JSON.stringify({name: target.name}) })
                 .then(response => response.json())
-                .then(data => console.log(data))
+                .then(data => {
+                    console.log(data);
+                    stopLoad();
+                })
                 .catch((error) => console.error('Error:', error));
         }
     });
@@ -214,9 +223,13 @@ function submitPermissions(form: HTMLElement) {
 
     const messageJSON = JSON.stringify(messageData);
 
+    load();
     fetch(API_URL, { method: 'POST', headers: HEADERS, body: messageJSON })
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => {
+            console.log(data);
+            stopLoad();
+        })
         .catch((error) => console.error('Error:', error));
 }
 
@@ -231,7 +244,18 @@ function submitCreation(form: HTMLElement) {
         document.getElementById('text-alert').classList.add('no-display');
     }
 
-    this.PERMISSIONS.push(new Permission(text, type));
+    const newPermission = new Permission(text, type)
+
+    this.PERMISSIONS.push(newPermission);
+
+    load();
+    fetch(API_URL + '/pref/create', { method: 'POST', headers: HEADERS, body: JSON.stringify(newPermission) })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            stopLoad();
+        })
+        .catch((error) => console.error('Error:', error));
 
     createPermissionsForm(form);
 }
@@ -253,6 +277,17 @@ function submitEdit(form: HTMLElement) {
     this.PERMISSIONS[index].text = text;
 
     document.getElementById('edit-form').classList.add('no-display');
+
+    const messageJSON = JSON.stringify({index: index, type: type.replace('Edit', ''), text: text});
+
+    load();
+    fetch(API_URL + '/pref/update', { method: 'PUT', headers: HEADERS, body: messageJSON })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            stopLoad();
+        })
+        .catch((error) => console.error('Error:', error));
 
     createPermissionsForm(form);
 }
@@ -315,15 +350,6 @@ function getRandomID() {
     return getNumber;
 }
 
-function permissionsSeeder() {
-    this.PERMISSIONS.push(new Permission("Send all your data to Mr Zuck", "permissionNss"));
-    this.PERMISSIONS.push(new Permission("Record and store all private interactions", "permissionNss"));
-    this.PERMISSIONS.push(new Permission("Harvest device specifications", "permissionPms"));
-    this.PERMISSIONS.push(new Permission("Laugh at your poor life choices", "permissionPms"));
-    this.PERMISSIONS.push(new Permission("Send you daily monke memes", "permissionAll"));
-    this.PERMISSIONS.push(new Permission("Read Berserk by Kentaro Miura on your behalf", "permissionAll"));
-}
-
 function removeChildren(el: HTMLElement) {
     let child = el.lastElementChild;
     while (child) {
@@ -344,6 +370,16 @@ function clickToEdit() {
     document.getElementById("edit-page").classList.remove("no-display");
 
     document.getElementsByClassName("section")[1].classList.add("editing");
+}
+
+function load() {
+    this.document.getElementById("permissions-list").classList.add("no-display");
+    this.document.getElementById("spinner").classList.remove("no-display");
+}
+
+function stopLoad() {
+    this.document.getElementById("permissions-list").classList.remove("no-display");
+    this.document.getElementById("spinner").classList.add("no-display");
 }
 
 class Permission {
