@@ -4,6 +4,7 @@ const HEADERS = {
 };
 let ISLOCKED = false;
 let BOXES = {};
+let PERMISSIONS: Permission[] = [];
 let randomGenerator = getRandomID();
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -15,12 +16,12 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function permissionsRoutine() {
-    let permissions: Permission[] = permissionsSeeder([]);
     const permissionsForm = document.getElementById('permissions-form');
 
-    createPermissionsForm(permissions, permissionsForm);
-    formSubmission(permissionsForm, permissions);
-    handleDeletion(permissionsForm, permissions);
+    permissionsSeeder();
+    createPermissionsForm(permissionsForm);
+    formSubmission(permissionsForm);
+    handleDeletion(permissionsForm);
 }
 
 function popUpRoutine() {
@@ -46,24 +47,22 @@ function getBoxes() {
     return { pmsBoxes, allBoxes };
 }
 
-function handleDeletion(form: HTMLElement, permissions: Permission[]) {
+function handleDeletion(form: HTMLElement) {
     document.addEventListener('click', event => {
         const target = event.target as HTMLInputElement
         if(target.classList.contains('delete-btn')) {
-            console.log(target.name);
-            permissions = permissions.filter(el => el.id != target.name);
-            console.log(permissions);
+            this.PERMISSIONS = this.PERMISSIONS.filter((el: Permission) => el.id != target.name);
         }
 
-        createPermissionsForm(permissions, form);
+        createPermissionsForm(form);
     });
 }
 
-function createPermissionsForm(permissions: Permission[], form: HTMLElement) {
+function createPermissionsForm(form: HTMLElement) {
     const permissionsList = document.getElementById("permissions-list");
     removeChildren(permissionsList);
 
-    permissions.forEach(element => {
+    this.PERMISSIONS.forEach((element: Permission) => {
         const newElement = document.createElement("div");
         newElement.classList.add("grid-element");
 
@@ -125,24 +124,24 @@ function handleRadios() {
     });
 }
 
-function formSubmission(form: HTMLElement, permissions: Permission[]) {
+function formSubmission(form: HTMLElement) {
     document.addEventListener('submit', (event: Event) => {
         event.preventDefault();
 
         if ((event.target as HTMLElement).id == "permissions-form") {
-            submitPermissions(form, permissions);
+            submitPermissions(form);
 
         } else if ((event.target as HTMLElement).id == "creation-form") {
-            submitCreation(form, permissions);
+            submitCreation(form);
 
         }
     });
 }
 
-function submitPermissions(form: HTMLElement, permissions: Permission[]) {
+function submitPermissions(form: HTMLElement) {
     let messageData: { id: string, status: boolean }[] = [];
 
-    permissions.forEach(element => {
+    this.PERMISSIONS.forEach((element: Permission) => {
         let checkedStatus = (document.getElementById(element.id) as HTMLInputElement).checked;
 
         let newData = { "id": element.id, "status": checkedStatus };
@@ -158,7 +157,7 @@ function submitPermissions(form: HTMLElement, permissions: Permission[]) {
         .catch((error) => console.error('Error:', error));
 }
 
-function submitCreation(form: HTMLElement, permissions: Permission[]) {
+function submitCreation(form: HTMLElement) {
     const type = document.querySelector('input[type=radio][name=presetC]:checked').id;
     const text = (document.getElementById('permName') as HTMLInputElement).value;
 
@@ -169,9 +168,9 @@ function submitCreation(form: HTMLElement, permissions: Permission[]) {
         document.getElementById('text-alert').classList.add('no-display');
     }
 
-    permissions.push(new Permission(text, type));
+    this.PERMISSIONS.push(new Permission(text, type));
 
-    createPermissionsForm(permissions, form);
+    createPermissionsForm(form);
 }
 
 function handleLock(lock: HTMLInputElement, popUp: Element) {
@@ -232,15 +231,13 @@ function getRandomID() {
     return getNumber;
 }
 
-function permissionsSeeder(permissions: Permission[]) {
-    permissions.push(new Permission("Send all your data to Mr Zuck", "permissionNss"));
-    permissions.push(new Permission("Record and store all private interactions", "permissionNss"));
-    permissions.push(new Permission("Harvest device specifications", "permissionPms"));
-    permissions.push(new Permission("Laugh at your poor life choices", "permissionPms"));
-    permissions.push(new Permission("Send you daily monke memes", "permissionAll"));
-    permissions.push(new Permission("Read Berserk by Kentaro Miura on your behalf", "permissionAll"));
-
-    return permissions;
+function permissionsSeeder() {
+    this.PERMISSIONS.push(new Permission("Send all your data to Mr Zuck", "permissionNss"));
+    this.PERMISSIONS.push(new Permission("Record and store all private interactions", "permissionNss"));
+    this.PERMISSIONS.push(new Permission("Harvest device specifications", "permissionPms"));
+    this.PERMISSIONS.push(new Permission("Laugh at your poor life choices", "permissionPms"));
+    this.PERMISSIONS.push(new Permission("Send you daily monke memes", "permissionAll"));
+    this.PERMISSIONS.push(new Permission("Read Berserk by Kentaro Miura on your behalf", "permissionAll"));
 }
 
 function removeChildren(el: HTMLElement) {
