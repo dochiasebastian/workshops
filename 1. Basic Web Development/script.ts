@@ -3,12 +3,15 @@ const HEADERS = {
     "Content-Type": "application/json",
 };
 let ISLOCKED = false;
+let COUNTER = 0;
 let BOXES = {};
 let PERMISSIONS: Permission[] = [];
 let NOWEDITING: Permission;
 let randomGenerator = getRandomID();
 
 document.addEventListener("DOMContentLoaded", () => {
+    loadRoutine();
+
     popUpRoutine();
 
     permissionsRoutine();
@@ -18,10 +21,25 @@ document.addEventListener("DOMContentLoaded", () => {
     routingRoutine();
 });
 
+function loadRoutine() {
+    const squareCount = 9;
+
+    const spinnner = document.querySelector(".spinner-grid.no-display");
+
+    for(let i = 0; i < squareCount; i++) {
+        const newSquare = document.createElement('div');
+        newSquare.classList.add(`square${i + 1}`);
+        spinnner.appendChild(newSquare);
+    }
+
+    document.getElementById('start-spinner').classList.add("no-display");
+    document.getElementById('site-content').classList.remove("no-display");
+}
+
 function permissionsRoutine() {
     const permissionsForm = document.getElementById('permissions-form');
 
-    load();
+    toggleLoad(true);
     fetch(API_URL + '/pref', { method: 'GET', headers: HEADERS })
         .then(response => response.json())
         .then(data => {
@@ -29,7 +47,7 @@ function permissionsRoutine() {
             createPermissionsForm(permissionsForm);
             formSubmission(permissionsForm);
             handleModification(permissionsForm);
-            stopLoad();
+            toggleLoad(false);
         })
         .catch((error) => console.error('Error:', error));
 }
@@ -37,11 +55,11 @@ function permissionsRoutine() {
 function popUpRoutine() {
     const popUp = document.getElementsByClassName('preferences')[0];
     const lock = document.getElementById('lock') as HTMLInputElement;
+    const lock2 = document.getElementById('lock2') as HTMLInputElement;
 
     ISLOCKED = lock.checked;
 
-    handleLock(lock, popUp);
-    handlePopUp(popUp);
+    handlePopUp(lock, lock2, popUp);
 }
 
 function radiosRoutine() {
@@ -94,34 +112,38 @@ function getBoxes() {
 function handleModification(form: HTMLElement) {
     document.addEventListener('click', event => {
         const target = event.target as HTMLInputElement
-        if (target.classList.contains('delete-btn') && target.classList.contains('edit-btn')) {
+        if (target.classList.contains('edit-btn')) {
             document.getElementById('edit-form').classList.remove('no-display');
 
             const elemenToEdit: Permission = this.PERMISSIONS.filter((perm: Permission) => perm.id == target.name)[0];
             this.NOWEDITING = elemenToEdit;
 
             document.getElementById(elemenToEdit.type + 'Edit').click();
-
             (document.getElementById('permNameEdit') as HTMLInputElement).value = elemenToEdit.text;
+
             createPermissionsForm(form);
         } else if (target.classList.contains('delete-btn')) {
+            if(NOWEDITING.id == target.name) {
+                document.getElementById('edit-form').classList.add('no-display');
+            }
+
             this.PERMISSIONS = this.PERMISSIONS.filter((el: Permission) => el.id != target.name);
+
             createPermissionsForm(form);
 
-            load();
-            fetch(API_URL + '/pref/delete', { method: 'DELETE', headers: HEADERS, body: JSON.stringify({name: target.name}) })
+            fetch(API_URL + '/pref/delete', { method: 'DELETE', headers: HEADERS, body: JSON.stringify({ name: target.name }) })
                 .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    stopLoad();
-                })
-                .catch((error) => console.error('Error:', error));
+                .catch((error) => {
+                    console.error('Error:', error);
+                    permissionsRoutine();
+                });
         }
     });
 }
 
 function createPermissionsForm(form: HTMLElement) {
     const permissionsList = document.getElementById("permissions-list");
+
     removeChildren(permissionsList);
 
     this.PERMISSIONS.forEach((element: Permission) => {
@@ -146,13 +168,14 @@ function createPermissionsForm(form: HTMLElement) {
         newButtonDelete.setAttribute('type', 'button');
         newButtonDelete.textContent = 'X';
         newButtonDelete.setAttribute('name', element.id);
+        newButtonDelete.classList.add('letter-btn');
         newButtonDelete.classList.add('delete-btn');
 
         const newButtonEdit = document.createElement("button");
         newButtonEdit.setAttribute('type', 'button');
         newButtonEdit.textContent = 'E';
         newButtonEdit.setAttribute('name', element.id);
-        newButtonEdit.classList.add('delete-btn');
+        newButtonEdit.classList.add('letter-btn');
         newButtonEdit.classList.add('edit-btn');
 
         newElement.appendChild(newButtonEdit);
@@ -161,10 +184,22 @@ function createPermissionsForm(form: HTMLElement) {
         newElement.appendChild(newInput);
 
         permissionsList.appendChild(newElement);
-
     });
 
+    setCounter();
+
     this.BOXES = getBoxes();
+}
+
+function setCounter() {
+    const counterDisplay = document.getElementById("counter-display");
+    removeChildren(counterDisplay);
+
+    this.COUNTER = document.querySelectorAll('input[type="checkbox"]:checked').length;
+
+    const newText = document.createElement('span');
+    newText.textContent = `${this.COUNTER} permissions`;
+    counterDisplay.appendChild(newText);
 }
 
 function handleRadios() {
@@ -187,10 +222,11 @@ function handleRadios() {
                     break;
 
                 default:
-                    console.log("#ERROR");
                     break;
             }
         }
+
+        setCounter();
     });
 }
 
@@ -223,14 +259,12 @@ function submitPermissions(form: HTMLElement) {
 
     const messageJSON = JSON.stringify(messageData);
 
-    load();
     fetch(API_URL, { method: 'POST', headers: HEADERS, body: messageJSON })
         .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            stopLoad();
-        })
-        .catch((error) => console.error('Error:', error));
+        .catch((error) => {
+            console.error('Error:', error);
+            permissionsRoutine();
+        });
 }
 
 function submitCreation(form: HTMLElement) {
@@ -240,22 +274,21 @@ function submitCreation(form: HTMLElement) {
     if (!text) {
         document.getElementById('text-alert').classList.remove('no-display');
         return;
-    } else {
-        document.getElementById('text-alert').classList.add('no-display');
-    }
+    } 
+        
+    document.getElementById('text-alert').classList.add('no-display');
+    
 
     const newPermission = new Permission(text, type)
 
     this.PERMISSIONS.push(newPermission);
 
-    load();
     fetch(API_URL + '/pref/create', { method: 'POST', headers: HEADERS, body: JSON.stringify(newPermission) })
         .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            stopLoad();
-        })
-        .catch((error) => console.error('Error:', error));
+        .catch((error) => {
+            console.error('Error:', error);
+            permissionsRoutine();
+        });
 
     createPermissionsForm(form);
 }
@@ -267,9 +300,10 @@ function submitEdit(form: HTMLElement) {
     if (!text) {
         document.getElementById('text-alert-edit').classList.remove('no-display');
         return;
-    } else {
-        document.getElementById('text-alert-edit').classList.add('no-display');
-    }
+    } 
+        
+    document.getElementById('text-alert-edit').classList.add('no-display');
+    
 
     const index = this.PERMISSIONS.findIndex((perm: Permission) => perm.id == this.NOWEDITING.id);
 
@@ -278,37 +312,29 @@ function submitEdit(form: HTMLElement) {
 
     document.getElementById('edit-form').classList.add('no-display');
 
-    const messageJSON = JSON.stringify({index: index, type: type.replace('Edit', ''), text: text});
+    const messageJSON = JSON.stringify({ index: index, type: type.replace('Edit', ''), text: text });
 
-    load();
     fetch(API_URL + '/pref/update', { method: 'PUT', headers: HEADERS, body: messageJSON })
         .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            stopLoad();
-        })
-        .catch((error) => console.error('Error:', error));
+        .catch((error) => {
+            console.error('Error:', error);
+            permissionsRoutine();
+        });
 
     createPermissionsForm(form);
 }
 
-function handleLock(lock: HTMLInputElement, popUp: Element) {
-    lock.addEventListener('change', (event) => {
+function handlePopUp(lock: HTMLInputElement, lock2: HTMLInputElement, popUp: Element) {
+    lock.addEventListener('click', (event) => {
         ISLOCKED = lock.checked;
-
-        popUp.classList.remove('hidden');
-        popUp.classList.remove('showing');
-
-        if (ISLOCKED) {
-            popUp.classList.add('showing');
-        } else {
-            popUp.classList.add('hidden');
-        }
-
+        switchLock(lock2, popUp);
     });
-}
 
-function handlePopUp(popUp: Element) {
+    lock2.addEventListener('click', (event) => {
+        ISLOCKED = lock2.checked;
+        switchLock(lock, popUp);
+    });
+
     if (ISLOCKED) {
         popUp.classList.add('showing');
         popUp.classList.remove('hidden');
@@ -327,6 +353,19 @@ function handlePopUp(popUp: Element) {
             popUp.classList.remove('showing');
         }
     });
+}
+
+function switchLock(lock: HTMLInputElement, popUp: Element) {
+    popUp.classList.remove('hidden');
+    popUp.classList.remove('showing');
+
+    if (ISLOCKED) {
+        popUp.classList.add('showing');
+        lock.checked = true;
+    } else {
+        popUp.classList.add('hidden');
+        lock.checked = false;
+    }
 }
 
 function changeBoxesState(boxes: NodeListOf<HTMLInputElement>, state: boolean) {
@@ -358,28 +397,14 @@ function removeChildren(el: HTMLElement) {
     }
 }
 
-function clickToAdd() {
-    document.getElementById("creation-page").classList.remove("no-display");
-    document.getElementById("edit-page").classList.add("no-display");
-
-    document.getElementsByClassName("section")[1].classList.remove("editing");
-}
-
-function clickToEdit() {
-    document.getElementById("creation-page").classList.add("no-display");
-    document.getElementById("edit-page").classList.remove("no-display");
-
-    document.getElementsByClassName("section")[1].classList.add("editing");
-}
-
-function load() {
-    this.document.getElementById("permissions-list").classList.add("no-display");
-    this.document.getElementById("spinner").classList.remove("no-display");
-}
-
-function stopLoad() {
-    this.document.getElementById("permissions-list").classList.remove("no-display");
-    this.document.getElementById("spinner").classList.add("no-display");
+function toggleLoad(isLoading: boolean) {
+    if(isLoading) {
+        this.document.getElementById("permissions-list").classList.add("no-display");
+        this.document.getElementById("spinner").classList.remove("no-display");
+    } else {
+        this.document.getElementById("permissions-list").classList.remove("no-display");
+        this.document.getElementById("spinner").classList.add("no-display");
+    }
 }
 
 class Permission {

@@ -10,7 +10,6 @@
 }
 
 body {
-    counter-reset: checkedCount;
     position: relative;
 }
 
@@ -63,7 +62,12 @@ label:lang(en) {
     float: left;
 }
 
-.to-begin {
+.home-btn {
+    margin: 20px;
+    position: absolute;
+}
+
+.navigate-btn {
     border-style: solid;
     border-color: black;
     border-width: 0.5px;
@@ -71,7 +75,7 @@ label:lang(en) {
     background-color: var(--bg-color);
 }
 
-.to-begin:hover {
+.navigate-btn:hover {
     background-color: var(--highlight);
     color: white;
 }
@@ -82,13 +86,16 @@ label:lang(en) {
     cursor: pointer;
 }
 
-.delete-btn {
+.letter-btn {
     width: fit-content;
     height: fit-content;
     border: none;
     background: none;
-    color: red;
     cursor: pointer;
+}
+
+.delete-btn {
+    color: red;
 }
 
 .edit-btn {
@@ -97,15 +104,15 @@ label:lang(en) {
 
 .hidden {
     bottom: -450px;
+    transition: bottom 200ms linear 50ms;
 }
 
 .showing {
-    bottom: 0px !important;
+    bottom: 0 !important;
 }
 
 .preferences:hover {
     bottom: -435px;
-    transition: bottom 200ms linear 50ms;
 }
 
 .content {
@@ -122,6 +129,11 @@ label:lang(en) {
 
 .section {
     margin-top: 10px;
+}
+
+.list {
+    height: 12vh;
+    overflow-y: auto;
 }
 
 .section button[type="button"] {
@@ -184,6 +196,10 @@ input[type="text"] {
     margin-top: 20px;
 }
 
+#small-d-lock {
+    display: none;
+}
+
 .begin-arrow {
     width: 200px;
     display: flex;
@@ -199,17 +215,12 @@ input[type="text"] {
     color: red;
 }
 
-.agreeCountDisplay::after {
-    content: " " counter(checkedCount) " permissions.";
+.counter-display span {
     color: indigo;
 }
 
 .no-display {
     display: none;
-}
-
-#permissions-form :checked[type="checkbox"] {
-    counter-increment: checkedCount;
 }
 
 #text-alert {
@@ -222,6 +233,13 @@ input[type="text"] {
     width: 100px;
     height: 100px;
     margin: auto;
+}
+
+.start-grid {
+    width: 200px;
+    height: 200px;
+    margin: auto;
+    margin-top: 35vh;
 }
 
 .spinner-grid div {
@@ -307,5 +325,94 @@ input[type="text"] {
 @media only screen and (max-width: 1240px) {
     .preferences {
         width: fit-content;
+    }
+}
+
+@media only screen and (max-height: 1000px) {
+    .editor {
+        margin-top: 0px;
+    }
+
+    .begin-arrow {
+        margin-left: 10px;
+    }
+
+    .begin-arrow p {
+        display: none;
+    }
+}
+
+@media only screen and (max-height: 900px) and (min-width: 800px) {
+    .editor {
+        margin-top: 0px;
+        margin-left: 5vh;
+    }
+
+    .preferences {
+        margin-right: 5vh;
+        bottom: -435px
+    }
+
+    .preferences:hover {
+        bottom: -415px
+    }
+}
+
+@media only screen and (max-height: 700px) and (min-width: 800px) {
+    .preferences {
+        bottom: -415px
+    }
+
+    .preferences:hover {
+        bottom: -395px
+    }
+}
+
+@media only screen and (max-height: 460px) and (min-width: 800px) {
+    .editor {
+        overflow-y: auto;
+        height: 100%;
+    }
+
+    .preferences {
+        margin-right: 5vh;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .preferences {
+        width: 90%;
+    }
+
+    .editor {
+        width: 80%;
+    }
+}
+
+@media only screen and (max-width: 800px) and (max-height: 930px) {
+    .preferences {
+        height: 50vh;
+        overflow-y: auto;
+    }
+
+    .editor {
+        height: 50vh;
+        overflow-y: auto;
+    }
+}
+
+@media only screen and (max-height: 450px) {
+    .preferences {
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    .editor {
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    #small-d-lock {
+        display: inline-block;
     }
 }
