@@ -57,7 +57,7 @@ function popUpRoutine() {
     const lock = document.getElementById('lock') as HTMLInputElement;
     const lock2 = document.getElementById('lock2') as HTMLInputElement;
 
-    ISLOCKED = lock.checked;
+    this.ISLOCKED = lock.checked;
 
     handlePopUp(lock, lock2, popUp);
 }
@@ -326,16 +326,16 @@ function submitEdit(form: HTMLElement) {
 
 function handlePopUp(lock: HTMLInputElement, lock2: HTMLInputElement, popUp: Element) {
     lock.addEventListener('click', (event) => {
-        ISLOCKED = lock.checked;
+        this.ISLOCKED = lock.checked;
         switchLock(lock2, popUp);
     });
 
     lock2.addEventListener('click', (event) => {
-        ISLOCKED = lock2.checked;
+        this.ISLOCKED = lock2.checked;
         switchLock(lock, popUp);
     });
 
-    if (ISLOCKED) {
+    if (this.ISLOCKED) {
         popUp.classList.add('showing');
         popUp.classList.remove('hidden');
     }
@@ -348,6 +348,7 @@ function handlePopUp(lock: HTMLInputElement, lock2: HTMLInputElement, popUp: Ele
     });
 
     popUp.addEventListener('mouseleave', () => {
+        console.log(this.ISLOCKED);
         if (!this.ISLOCKED) {
             popUp.classList.add('hidden');
             popUp.classList.remove('showing');
@@ -359,7 +360,7 @@ function switchLock(lock: HTMLInputElement, popUp: Element) {
     popUp.classList.remove('hidden');
     popUp.classList.remove('showing');
 
-    if (ISLOCKED) {
+    if (this.ISLOCKED) {
         popUp.classList.add('showing');
         lock.checked = true;
     } else {

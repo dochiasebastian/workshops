@@ -22,7 +22,7 @@ button[type="submit"]:hover {
 }
 
 a[href^="http"]::before {
-    background-image: url(./icons/externalLinkIco.png);
+    background-image: url(./externalLinkIco.png);
     background-size: 15px 17px;
     display: inline-block;
     width: 15px;

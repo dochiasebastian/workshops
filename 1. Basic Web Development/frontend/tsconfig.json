@@ -11,8 +11,7 @@
             "es6",
             "dom"
         ],
-        "noUnusedLocals": true,
         "module": "commonjs",
-        "strict": false
+        "esModuleInterop": true,
     },
 }
