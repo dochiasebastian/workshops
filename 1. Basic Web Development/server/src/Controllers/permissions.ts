@@ -44,4 +44,3 @@ export const updatePermission = asyncHandler(async (req: any, res: any, next: an
         return next(new ErrorResponse(`Permission not found with id ${req.body.id}`, 404));
     }
 });
-
