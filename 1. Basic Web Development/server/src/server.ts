@@ -1,10 +1,13 @@
 import express = require('express');
-import cors = require("cors");
+import cors = require('cors');
+import { connectDB } from './Config/DB';
 import { Permission } from './Model/Permission';
 import { seeder } from './Util/Seeder';
 
 const app = express();
 let permissions: Permission[] = seeder();
+
+connectDB();
 
 app.use(cors());
 
