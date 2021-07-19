@@ -8,6 +8,7 @@ const PORT = 5000;
 connectDB();
 
 import permissionsRoute from './Routes/Permissions';
+import authRoute from './Routes/Auth';
 
 app.use(cors());
 
@@ -21,6 +22,7 @@ app.post('/', (req, res) => {
 });
 
 app.use('/api/v1/permissions', permissionsRoute);
+app.use('/api/v1/auth', authRoute);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
