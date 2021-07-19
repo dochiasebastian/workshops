@@ -5,7 +5,7 @@ import { Permission } from './Model/Permission';
 import { seeder } from './Util/Seeder';
 
 const app = express();
-let permissions: Permission[] = seeder();
+const permissions: Permission[] = seeder();
 const PORT = 5000;
 
 connectDB();
@@ -24,32 +24,6 @@ app.post('/', (req, res) => {
 });
 
 app.use('/api/v1/preferences', permissionsRoute);
-
-app.delete('/pref/delete', (req, res) => {
-    permissions = permissions.filter((el: Permission) => el.id !== req.body.name);
-
-    res.status(200).json({
-        success: true,
-        data: permissions
-    });
-});
-
-app.get('/pref', (req, res) => {
-    res.status(200).json({
-        success: true,
-        data: permissions
-    });
-})
-
-app.put('/pref/update', (req, res) => {
-    permissions[req.body.index].type = req.body.type;
-    permissions[req.body.index].text = req.body.text;
-
-    res.status(200).json({
-        success: true,
-        data: permissions
-    });
-});
 
 app.listen(5000, () => {
     console.log('Server running on port 5000');
