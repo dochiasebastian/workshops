@@ -1,0 +1,29 @@
+{
+    "1":{
+        "type": "permissionNss",
+        "text": "Send all your data to Mr Zuck"
+    },
+    "2":{
+        "type": "permissionNss",
+        "text": "Record and store all private interactions"
+    },
+    "3":{
+        "type": "permissionPms",
+        "text": "Harvest device specifications"
+    },
+    "4":{
+        "type": "permissionPms",
+        "text": "Laugh at your poor life choices"
+    },
+    "5":{
+        "type": "permissionAll",
+        "text": "Send you daily monke memes"
+    },
+    "6":{
+        "type": "permissionAll",
+        "text": "Read Berserk by Kentaro Miura on your behalf"
+    }
+
+    
+
+}

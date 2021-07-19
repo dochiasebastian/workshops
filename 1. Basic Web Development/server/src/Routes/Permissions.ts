@@ -3,9 +3,8 @@ import { createPermission, deletePermission, updatePermission, getPermissions } 
 
 const router = express.Router();
 
-router.post('/create', createPermission);
+router.route('/').post(createPermission).get(getPermissions);
 router.delete('/delete', deletePermission);
 router.put('/update', updatePermission);
-router.get('/', getPermissions);
 
 export default router;

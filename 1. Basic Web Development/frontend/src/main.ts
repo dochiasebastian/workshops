@@ -1,5 +1,4 @@
-const API_URL = "http://localhost:5000"
-const API_URL2 = "http://localhost:5000/api/v1";
+const API_URL = "http://localhost:5000/api/v1";
 const HEADERS = {
     "Content-Type": "application/json",
 };
@@ -41,7 +40,7 @@ function permissionsRoutine() {
     const permissionsForm = document.getElementById('permissions-form');
 
     toggleLoad(true);
-    fetch(API_URL + '/pref', { method: 'GET', headers: HEADERS })
+    fetch(API_URL + '/permissions', { method: 'GET', headers: HEADERS })
         .then(response => response.json())
         .then(data => {
             this.PERMISSIONS = data.data;
@@ -116,7 +115,7 @@ function handleModification(form: HTMLElement) {
         if (target.classList.contains('edit-btn')) {
             document.getElementById('edit-form').classList.remove('no-display');
 
-            const elemenToEdit: Permission = this.PERMISSIONS.filter((perm: Permission) => perm.id == target.name)[0];
+            const elemenToEdit: Permission = this.PERMISSIONS.filter((perm: Permission) => perm._id == target.name)[0];
             this.NOWEDITING = elemenToEdit;
 
             document.getElementById(elemenToEdit.type + 'Edit').click();
@@ -124,15 +123,15 @@ function handleModification(form: HTMLElement) {
 
             createPermissionsForm(form);
         } else if (target.classList.contains('delete-btn')) {
-            if(NOWEDITING.id == target.name) {
+            if(this.NOWEDITING && this.NOWEDITING._id == target.name) {
                 document.getElementById('edit-form').classList.add('no-display');
             }
 
-            this.PERMISSIONS = this.PERMISSIONS.filter((el: Permission) => el.id != target.name);
+            this.PERMISSIONS = this.PERMISSIONS.filter((el: Permission) => el._id != target.name);
 
             createPermissionsForm(form);
 
-            fetch(API_URL + '/pref/delete', { method: 'DELETE', headers: HEADERS, body: JSON.stringify({ name: target.name }) })
+            fetch(API_URL + '/permissions/delete', { method: 'DELETE', headers: HEADERS, body: JSON.stringify({ id: target.name }) })
                 .then(response => response.json())
                 .catch((error) => {
                     console.error('Error:', error);
@@ -152,11 +151,11 @@ function createPermissionsForm(form: HTMLElement) {
         newElement.classList.add("grid-element");
 
         const newLabel = document.createElement("label");
-        newLabel.setAttribute('for', element.id);
+        newLabel.setAttribute('for', element._id);
         newLabel.innerHTML = element.text;
 
         const newInput = document.createElement("input");
-        newInput.setAttribute('id', element.id);
+        newInput.setAttribute('id', element._id);
         newInput.setAttribute('name', element.type);
         newInput.setAttribute('type', 'checkbox');
 
@@ -168,14 +167,14 @@ function createPermissionsForm(form: HTMLElement) {
         const newButtonDelete = document.createElement("button");
         newButtonDelete.setAttribute('type', 'button');
         newButtonDelete.textContent = 'X';
-        newButtonDelete.setAttribute('name', element.id);
+        newButtonDelete.setAttribute('name', element._id);
         newButtonDelete.classList.add('letter-btn');
         newButtonDelete.classList.add('delete-btn');
 
         const newButtonEdit = document.createElement("button");
         newButtonEdit.setAttribute('type', 'button');
         newButtonEdit.textContent = 'E';
-        newButtonEdit.setAttribute('name', element.id);
+        newButtonEdit.setAttribute('name', element._id);
         newButtonEdit.classList.add('letter-btn');
         newButtonEdit.classList.add('edit-btn');
 
@@ -208,18 +207,18 @@ function handleRadios() {
         if ((event.target as HTMLInputElement).name == "preset") {
             switch ((event.target as HTMLInputElement).value) {
                 case "All":
-                    this.changeBoxesState(this.BOXES.pmsBoxes, true);
-                    this.changeBoxesState(this.BOXES.allBoxes, true);
+                    changeBoxesState(this.BOXES.pmsBoxes, true);
+                    changeBoxesState(this.BOXES.allBoxes, true);
                     break;
 
                 case "Permissive":
-                    this.changeBoxesState(this.BOXES.pmsBoxes, true);
-                    this.changeBoxesState(this.BOXES.allBoxes, false);
+                    changeBoxesState(this.BOXES.pmsBoxes, true);
+                    changeBoxesState(this.BOXES.allBoxes, false);
                     break;
 
                 case "Necessary":
-                    this.changeBoxesState(this.BOXES.pmsBoxes, false);
-                    this.changeBoxesState(this.BOXES.allBoxes, false);
+                    changeBoxesState(this.BOXES.pmsBoxes, false);
+                    changeBoxesState(this.BOXES.allBoxes, false);
                     break;
 
                 default:
@@ -251,16 +250,16 @@ function submitPermissions(form: HTMLElement) {
     let messageData: { id: string, status: boolean }[] = [];
 
     this.PERMISSIONS.forEach((element: Permission) => {
-        let checkedStatus = (document.getElementById(element.id) as HTMLInputElement).checked;
+        let checkedStatus = (document.getElementById(element._id) as HTMLInputElement).checked;
 
-        let newData = { "id": element.id, "status": checkedStatus };
+        let newData = { "id": element._id, "status": checkedStatus };
 
         messageData.push(newData);
     });
 
     const messageJSON = JSON.stringify(messageData);
 
-    fetch(API_URL, { method: 'POST', headers: HEADERS, body: messageJSON })
+    fetch(API_URL + '/permissions', { method: 'POST', headers: HEADERS, body: messageJSON })
         .then(response => response.json())
         .catch((error) => {
             console.error('Error:', error);
@@ -284,7 +283,7 @@ function submitCreation(form: HTMLElement) {
 
     this.PERMISSIONS.push(newPermission);
 
-    fetch(API_URL2 + '/preferences/create', { method: 'POST', headers: HEADERS, body: JSON.stringify(newPermission) })
+    fetch(API_URL + '/permissions', { method: 'POST', headers: HEADERS, body: JSON.stringify(newPermission) })
         .then(response => response.json())
         .catch((error) => {
             console.error('Error:', error);
@@ -304,18 +303,17 @@ function submitEdit(form: HTMLElement) {
     } 
         
     document.getElementById('text-alert-edit').classList.add('no-display');
-    
 
-    const index = this.PERMISSIONS.findIndex((perm: Permission) => perm.id == this.NOWEDITING.id);
+    const index = this.PERMISSIONS.findIndex((perm: Permission) => perm._id == this.NOWEDITING._id);
 
     this.PERMISSIONS[index].type = type.replace('Edit', '');
     this.PERMISSIONS[index].text = text;
 
     document.getElementById('edit-form').classList.add('no-display');
 
-    const messageJSON = JSON.stringify({ index: index, type: type.replace('Edit', ''), text: text });
+    const messageJSON = JSON.stringify({ id: this.NOWEDITING._id, type: type.replace('Edit', ''), text: text });
 
-    fetch(API_URL + '/pref/update', { method: 'PUT', headers: HEADERS, body: messageJSON })
+    fetch(API_URL + '/permissions/update', { method: 'PUT', headers: HEADERS, body: messageJSON })
         .then(response => response.json())
         .catch((error) => {
             console.error('Error:', error);
@@ -410,11 +408,10 @@ function toggleLoad(isLoading: boolean) {
 }
 
 class Permission {
-    id: string;
+    _id: string;
 
     constructor(public text: string, public type: string) {
         this.type = type;
         this.text = text;
-        this.id = text.split(' ')[0].toLowerCase() + randomGenerator();
     }
 }
