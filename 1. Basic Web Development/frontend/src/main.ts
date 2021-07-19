@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:3000";
+const API_URL = "http://localhost:5000"
+const API_URL2 = "http://localhost:5000/api/v1";
 const HEADERS = {
     "Content-Type": "application/json",
 };
@@ -283,7 +284,7 @@ function submitCreation(form: HTMLElement) {
 
     this.PERMISSIONS.push(newPermission);
 
-    fetch(API_URL + '/pref/create', { method: 'POST', headers: HEADERS, body: JSON.stringify(newPermission) })
+    fetch(API_URL2 + '/preferences/create', { method: 'POST', headers: HEADERS, body: JSON.stringify(newPermission) })
         .then(response => response.json())
         .catch((error) => {
             console.error('Error:', error);
