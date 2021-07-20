@@ -2,14 +2,13 @@ import express = require('express');
 import cors = require('cors');
 import { connectDB } from './Config/DB';
 import errorHandler from './Middleware/Error';
+import permissionsRoute from './Routes/Permissions';
+import authRoute from './Routes/Auth';
 
 const app = express();
 const PORT = 5000;
 
 connectDB();
-
-import permissionsRoute from './Routes/Permissions';
-import authRoute from './Routes/Auth';
 
 app.use(cors());
 

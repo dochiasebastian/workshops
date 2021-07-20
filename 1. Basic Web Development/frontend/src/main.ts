@@ -126,7 +126,6 @@ function navigate(toLocation: string) {
     } else {
         window.location.href = "#login";
     }
-    //TODO: clean up routing, add routing based on user loggin state
 }
 
 function getBoxes() {
