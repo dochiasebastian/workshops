@@ -35,12 +35,15 @@ function loadRoutine() {
     }
 
     document.getElementById('start-spinner').classList.add("no-display");
-    document.getElementById('auth').classList.remove("no-display");
+    console.log(HEADERS);
 
     fetch(API_URL + '/auth/me', { method: 'GET', headers: HEADERS })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            if (data.success == true) {
+                window.location.href = "#home";
+                this.USER = data.data;
+            }
         })
         .catch((error) => console.error('Error:', error));
 }
@@ -86,7 +89,7 @@ function routingRoutine() {
 }
 
 function navigate(toLocation: string) {
-    if (toLocation == '#edit') {
+    if (toLocation == '#edit' && this.USER) {
         document.getElementById("creation-page").classList.add("no-display");
         document.getElementById("edit-page").classList.remove("no-display");
 
@@ -95,7 +98,7 @@ function navigate(toLocation: string) {
         document.getElementsByClassName("editor")[0].classList.remove('no-display');
         document.getElementsByClassName("preferences")[0].classList.remove('presentation');
         document.getElementsByClassName("begin-arrow")[0].classList.add('no-display');
-    } else if (toLocation == '#create') {
+    } else if (toLocation == '#create' && this.USER) {
         document.getElementById("creation-page").classList.remove("no-display");
         document.getElementById("edit-page").classList.add("no-display");
 
@@ -114,12 +117,14 @@ function navigate(toLocation: string) {
         document.getElementById('login-form').classList.remove('no-display');
         document.getElementById('signup-form').classList.add('no-display');
         document.getElementById('site-content').classList.add('no-display');
-    } else if (toLocation == '#home') {
+    } else if (toLocation == '#home' && this.USER) {
         document.getElementById('auth').classList.add('no-display');
         document.getElementsByClassName("editor")[0].classList.add('no-display');
         document.getElementsByClassName("preferences")[0].classList.add('presentation');
         document.getElementsByClassName("begin-arrow")[0].classList.remove('no-display');
         document.getElementById('site-content').classList.remove('no-display');
+    } else {
+        window.location.href = "#login";
     }
     //TODO: clean up routing, add routing based on user loggin state
 }
@@ -371,6 +376,7 @@ function submitLogin(form: HTMLElement) {
                 errorMessage.classList.remove('no-display');
             } else {
                 document.cookie = `token=${data.token}; path=/`;
+                window.location.reload();
             }
         })
         .catch((error) => {
