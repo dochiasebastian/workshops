@@ -38,7 +38,7 @@
     "lint": "tslint -c tslint.json -p tsconfig.json --fix",
     "tsc": "tsc",
     "build": "npm run clean && npm run lint && np run tsc",
-    "dev:start": "npm-run-all build start",
+    "dev:start": "build start",
     "dev": "nodemon --watch src -e ts,ejs --exec npm run dev:start",
     "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1"
