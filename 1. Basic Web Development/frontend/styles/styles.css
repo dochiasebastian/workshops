@@ -67,6 +67,12 @@ label:lang(en) {
     position: absolute;
 }
 
+.logout-btn {
+    margin: 20px;
+    position: absolute;
+    right: 0;
+}
+
 .navigate-btn {
     border-style: solid;
     border-color: black;
