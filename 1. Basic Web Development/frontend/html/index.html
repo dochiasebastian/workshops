@@ -25,19 +25,23 @@
     </div>
     <div id="auth">
         <form id="login-form" class="auth">
+            <h2>LogIn</h2>
             <div>
                 <label for="email">Email: </label>
                 <input id="email" name="email" type="text" />
             </div>
             <div>
                 <label for="password">Password: </label>
-                <input id="password" name="password" type="text" />
+                <input id="password" name="password" type="password" />
             </div>
-            <button type="submit">Submit</button>
-            <a class="no-decor" href="#signup">SignUp</a>
-            <p id="text-alert-login" class="no-display text-alert">Unknown Error</p>
+            <p id="text-alert-login" class="text-alert no-display">Unknown Error</p>
+            <div class="line">
+                <button type="submit">Submit</button>
+                <a class="no-decor" href="#signup">SignUp</a>
+            </div>
         </form>
-        <form id="signup-form" class="auth">
+        <form id="signup-form" class="auth no-display">
+            <h2>SignUp</h2>
             <div>
                 <label for="NameS">Name: </label>
                 <input id="NameS" name="name" type="text" />
@@ -50,8 +54,11 @@
                 <label for="passwordS">Password: </label>
                 <input id="passwordS" name="password" type="text" />
             </div>
-            <button type="submit">Submit</button>
-            <a class="no-decor" href="#login">LogIn</a>
+            <p id="text-alert-login" class="text-alert no-display">Unknown Error</p>
+            <div class="line">
+                <button type="submit">Submit</button>
+                <a class="no-decor" href="#login">LogIn</a>
+            </div>
         </form>
     </div>
     <div id="site-content" class="no-display">

@@ -3,7 +3,7 @@ import asyncHandler from './Async';
 import ErrorResponse from '../Util/ErrorResponse';
 import User from '../Model/User';
 
-exports.protect = asyncHandler(async (req: any, res: any, next: any) => {
+export const protect = asyncHandler(async (req: any, res: any, next: any) => {
     let token;
 
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
@@ -15,7 +15,7 @@ exports.protect = asyncHandler(async (req: any, res: any, next: any) => {
     }
 
     try{
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        const decodedToken = jwt.verify(token, "agenwmgt43809tg340jgr4ogjv0");
 
         console.log(decodedToken);
 

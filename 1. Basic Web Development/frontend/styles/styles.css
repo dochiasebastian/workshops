@@ -227,6 +227,7 @@ input[type="text"] {
     color: brown;
     float: right;
     margin-right: 7%;
+    margin-top: 0px;
 }
 
 .auth {
@@ -244,12 +245,23 @@ input[type="text"] {
     margin-bottom: 20px;
 }
 
+.auth h2 {
+    margin-bottom: 40px;
+}
+
 .auth input {
     float: right;
+    width: 250px;
 }
 
 .auth a {
     float: right;
+}
+
+.line {
+    margin-top: 70px;
+    display: block;
+    width: 100%;
 }
 
 .spinner-grid {
