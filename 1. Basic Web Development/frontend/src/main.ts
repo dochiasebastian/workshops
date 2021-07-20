@@ -122,6 +122,8 @@ function navigate(toLocation: string) {
         document.getElementsByClassName("preferences")[0].classList.add('presentation');
         document.getElementsByClassName("begin-arrow")[0].classList.remove('no-display');
         document.getElementById('site-content').classList.remove('no-display');
+
+        document.querySelector(".begin-arrow p:first-child").innerHTML = `Hello ${this.USER.name}`
     } else {
         window.location.href = "#login";
     }
