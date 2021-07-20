@@ -195,7 +195,7 @@ function setCounter() {
     const counterDisplay = document.getElementById("counter-display");
     removeChildren(counterDisplay);
 
-    this.COUNTER = document.querySelectorAll('input[type="checkbox"]:checked').length;
+    this.COUNTER = document.querySelectorAll('.list input[type="checkbox"]:checked').length;
 
     const newText = document.createElement('span');
     newText.textContent = `${this.COUNTER} permissions`;
@@ -347,7 +347,6 @@ function handlePopUp(lock: HTMLInputElement, lock2: HTMLInputElement, popUp: Ele
     });
 
     popUp.addEventListener('mouseleave', () => {
-        console.log(this.ISLOCKED);
         if (!this.ISLOCKED) {
             popUp.classList.add('hidden');
             popUp.classList.remove('showing');
