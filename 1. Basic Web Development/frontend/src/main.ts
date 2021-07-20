@@ -255,6 +255,8 @@ function formSubmission(form: HTMLElement) {
 
         } else if ((event.target as HTMLElement).id == "edit-form") {
             submitEdit(form);
+        } else if ((event.target as HTMLElement).id == "login-form") {
+            submitLogin(form);
         }
     });
 }
@@ -334,6 +336,18 @@ function submitEdit(form: HTMLElement) {
         });
 
     createPermissionsForm(form);
+}
+
+function submitLogin (form: HTMLElement) {
+    const email = (document.getElementById('email') as HTMLInputElement).value;
+    const password = (document.getElementById('password') as HTMLInputElement).value;
+
+    const errorMessage = document.getElementById('text-alert-login');
+
+    if (!email || !password) {
+        errorMessage.innerHTML = 'Both fields are required';
+        errorMessage.classList.remove('no-display');
+    }
 }
 
 function handlePopUp(lock: HTMLInputElement, lock2: HTMLInputElement, popUp: Element) {
