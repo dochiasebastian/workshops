@@ -1,12 +1,14 @@
 const API_URL = "http://localhost:5000/api/v1";
 const HEADERS = {
     "Content-Type": "application/json",
+    "Authorization": `Bearer ${document.cookie.split('=')[1]}`
 };
 let ISLOCKED = false;
 let COUNTER = 0;
 let BOXES = {};
 let PERMISSIONS: Permission[] = [];
 let NOWEDITING: Permission;
+let USER: User;
 let randomGenerator = getRandomID();
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -26,7 +28,7 @@ function loadRoutine() {
 
     const spinnner = document.querySelector(".spinner-grid.no-display");
 
-    for(let i = 0; i < squareCount; i++) {
+    for (let i = 0; i < squareCount; i++) {
         const newSquare = document.createElement('div');
         newSquare.classList.add(`square${i + 1}`);
         spinnner.appendChild(newSquare);
@@ -34,6 +36,13 @@ function loadRoutine() {
 
     document.getElementById('start-spinner').classList.add("no-display");
     document.getElementById('auth').classList.remove("no-display");
+
+    fetch(API_URL + '/auth/me', { method: 'GET', headers: HEADERS })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch((error) => console.error('Error:', error));
 }
 
 function permissionsRoutine() {
@@ -95,17 +104,17 @@ function navigate(toLocation: string) {
         document.getElementsByClassName("editor")[0].classList.remove('no-display');
         document.getElementsByClassName("preferences")[0].classList.remove('presentation');
         document.getElementsByClassName("begin-arrow")[0].classList.add('no-display');
-    } else if(toLocation == '#signup') {
+    } else if (toLocation == '#signup') {
         document.getElementById('auth').classList.remove('no-display');
         document.getElementById('login-form').classList.add('no-display');
         document.getElementById('signup-form').classList.remove('no-display');
         document.getElementById('site-content').classList.add('no-display');
-    } else if(toLocation == '#login') {
+    } else if (toLocation == '#login') {
         document.getElementById('auth').classList.remove('no-display');
         document.getElementById('login-form').classList.remove('no-display');
         document.getElementById('signup-form').classList.add('no-display');
         document.getElementById('site-content').classList.add('no-display');
-    } else if(toLocation == '#home') {
+    } else if (toLocation == '#home') {
         document.getElementById('auth').classList.add('no-display');
         document.getElementsByClassName("editor")[0].classList.add('no-display');
         document.getElementsByClassName("preferences")[0].classList.add('presentation');
@@ -136,7 +145,7 @@ function handleModification(form: HTMLElement) {
 
             createPermissionsForm(form);
         } else if (target.classList.contains('delete-btn')) {
-            if(this.NOWEDITING && this.NOWEDITING._id == target.name) {
+            if (this.NOWEDITING && this.NOWEDITING._id == target.name) {
                 document.getElementById('edit-form').classList.add('no-display');
             }
 
@@ -255,8 +264,10 @@ function formSubmission(form: HTMLElement) {
 
         } else if ((event.target as HTMLElement).id == "edit-form") {
             submitEdit(form);
+
         } else if ((event.target as HTMLElement).id == "login-form") {
             submitLogin(form);
+
         }
     });
 }
@@ -289,10 +300,10 @@ function submitCreation(form: HTMLElement) {
     if (!text) {
         document.getElementById('text-alert').classList.remove('no-display');
         return;
-    } 
-        
+    }
+
     document.getElementById('text-alert').classList.add('no-display');
-    
+
 
     const newPermission = new Permission(text, type)
 
@@ -315,8 +326,8 @@ function submitEdit(form: HTMLElement) {
     if (!text) {
         document.getElementById('text-alert-edit').classList.remove('no-display');
         return;
-    } 
-        
+    }
+
     document.getElementById('text-alert-edit').classList.add('no-display');
 
     const index = this.PERMISSIONS.findIndex((perm: Permission) => perm._id == this.NOWEDITING._id);
@@ -338,7 +349,7 @@ function submitEdit(form: HTMLElement) {
     createPermissionsForm(form);
 }
 
-function submitLogin (form: HTMLElement) {
+function submitLogin(form: HTMLElement) {
     const email = (document.getElementById('email') as HTMLInputElement).value;
     const password = (document.getElementById('password') as HTMLInputElement).value;
 
@@ -347,7 +358,24 @@ function submitLogin (form: HTMLElement) {
     if (!email || !password) {
         errorMessage.innerHTML = 'Both fields are required';
         errorMessage.classList.remove('no-display');
+        return;
     }
+
+    const messageJSON = JSON.stringify({ email: email, password: password });
+
+    fetch(API_URL + '/auth/login', { method: 'POST', headers: HEADERS, body: messageJSON })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success == false) {
+                errorMessage.innerHTML = data.error;
+                errorMessage.classList.remove('no-display');
+            } else {
+                document.cookie = `token=${data.token}; path=/`;
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 }
 
 function handlePopUp(lock: HTMLInputElement, lock2: HTMLInputElement, popUp: Element) {
@@ -424,7 +452,7 @@ function removeChildren(el: HTMLElement) {
 }
 
 function toggleLoad(isLoading: boolean) {
-    if(isLoading) {
+    if (isLoading) {
         this.document.getElementById("permissions-list").classList.add("no-display");
         this.document.getElementById("spinner").classList.remove("no-display");
     } else {
@@ -440,4 +468,9 @@ class Permission {
         this.type = type;
         this.text = text;
     }
+}
+
+interface User {
+    name: string,
+    email: string,
 }

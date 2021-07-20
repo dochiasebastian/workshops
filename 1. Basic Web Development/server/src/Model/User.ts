@@ -51,7 +51,7 @@ UserSchema.pre('save', async function(next){
 });
 
 UserSchema.methods.getSignedJwtToken = function() {
-    return jwt.sign({ id: this._id }, "Asaf3223fdsa", {
+    return jwt.sign({ id: this._id }, "agenwmgt43809tg340jgr4ogjv0", {
        expiresIn: 30
     });
 };
