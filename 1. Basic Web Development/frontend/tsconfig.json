@@ -1,17 +1,17 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "es2017",
         "sourceMap": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "lib": [
             "es2015",
+            "es2016",
             "es5",
             "es6",
             "dom"
         ],
-        "noUnusedLocals": true,
         "module": "commonjs",
-        "strict": false
+        "esModuleInterop": true,
     },
 }

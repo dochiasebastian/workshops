@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "scripts": {
+    "tsc": "tsc",
+    "tscw": "tsc --watch",
+    "wp": "webpack",
+    "wpw": "webpack --watch",
+    "serve": "http-server build"
+  },
+  "dependencies": {
+    "@types/lodash": "^4.14.171",
+    "copy-webpack-plugin": "^9.0.1",
+    "http-server": "^0.12.3",
+    "lodash": "^4.17.21",
+    "ts-loader": "^9.2.3",
+    "typescript": "^4.3.5",
+    "webpack": "^5.45.1",
+    "webpack-cli": "^4.7.2"
+  }
+}

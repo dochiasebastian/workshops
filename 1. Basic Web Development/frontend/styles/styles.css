@@ -1,0 +1,418 @@
+* {
+    box-sizing: border-box;
+    font-family: monospace;
+    overflow-y: hidden;
+}
+
+:root {
+    --bg-color: #F6F4F4;
+    --highlight: #736B60;
+}
+
+body {
+    position: relative;
+}
+
+button[type="submit"] {
+    font-size: large;
+}
+
+button[type="submit"]:hover {
+    background-color: greenyellow;
+}
+
+a[href^="http"]::before {
+    background-image: url(./externalLinkIco.png);
+    background-size: 15px 17px;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    content: "";
+}
+
+label:lang(en) {
+    font-size: large;
+}
+
+.preferences {
+    width: 40%;
+    background-color: var(--bg-color);
+    position: fixed;
+    margin-left: auto;
+    margin-right: auto;
+    right: 0;
+    left: 0;
+    transition: bottom 200ms linear 50ms;
+}
+
+.editor {
+    background-color: var(--bg-color);
+    width: 30%;
+    margin: auto;
+    margin-top: 10vh;
+    padding: 15px;
+}
+
+.to-edit {
+    float: right;
+    
+}
+
+.to-create {
+    float: left;
+}
+
+.home-btn {
+    margin: 20px;
+    position: absolute;
+}
+
+.navigate-btn {
+    border-style: solid;
+    border-color: black;
+    border-width: 0.5px;
+    padding: 5px;
+    background-color: var(--bg-color);
+}
+
+.navigate-btn:hover {
+    background-color: var(--highlight);
+    color: white;
+}
+
+.no-decor {
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}
+
+.letter-btn {
+    width: fit-content;
+    height: fit-content;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.delete-btn {
+    color: red;
+}
+
+.edit-btn {
+    color: blue;
+}
+
+.hidden {
+    bottom: -450px;
+    transition: bottom 200ms linear 50ms;
+}
+
+.showing {
+    bottom: 0 !important;
+}
+
+.preferences:hover {
+    bottom: -435px;
+}
+
+.content {
+    padding: 20px;
+}
+
+.content h1 {
+    text-align: center;
+}
+
+.editing {
+    border: none;
+}
+
+.section {
+    margin-top: 10px;
+}
+
+.list {
+    height: 12vh;
+    overflow-y: auto;
+}
+
+.section button[type="button"] {
+    display: none;
+}
+
+.section.editing button[type="button"] {
+    display: inline-block;
+}
+
+.bar {
+    background-color: var(--highlight);
+    width: 100%;
+    height: 10px;
+}
+
+.grid-element {
+    display: grid;
+    grid-auto-flow: column;
+    grid-row: 1;
+}
+
+.preferences .editing .grid-element:not(.except) {
+    grid-template-columns:10px 10px  1fr 15px;
+}
+
+.grid-element label {
+    justify-self: start;
+    margin-right: 10px;
+    margin-left: 10px;
+    width: 100%;
+}
+
+.grid-element a {
+    justify-self: end;
+    margin-top: 20px;
+    display: flex;
+    align-content: center;
+}
+
+.grid-element input:not(input[type="submit"]) {
+    justify-self: end;
+}
+
+.grid-element input[type="submit"] {
+    justify-self: start;
+}
+
+input[type="text"] {
+    width: 70%;
+}
+
+.btn-confirm {
+    margin-top: 15px;
+    justify-self: start;
+}
+
+.lock {
+    float: right;
+    margin-top: 20px;
+}
+
+#small-d-lock {
+    display: none;
+}
+
+.begin-arrow {
+    width: 200px;
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    margin: auto;
+    margin-top: 18vh;
+}
+
+.begin-arrow *:not(a){
+    margin-top: 2px;
+    margin-bottom: 2px;
+    color: red;
+}
+
+.counter-display span {
+    color: indigo;
+}
+
+.no-display {
+    display: none;
+}
+
+#text-alert {
+    color: brown;
+    float: right;
+    margin-right: 7%;
+}
+
+.spinner-grid {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+}
+
+.start-grid {
+    width: 200px;
+    height: 200px;
+    margin: auto;
+    margin-top: 35vh;
+}
+
+.spinner-grid div {
+    width: 33%;
+    height: 33%;
+    background-color: var(--highlight);
+    float: left;
+    -webkit-animation: squareGridScaleDelay 1.3s infinite ease-in-out;
+    animation: squareGridScaleDelay 1.3s infinite ease-in-out;
+}
+
+.presentation {
+    bottom: 20vh !important;
+}
+
+.spinner-grid .square1 {
+    -webkit-animation-delay: 0.4s;
+    animation-delay: 0.4s;
+}
+
+.spinner-grid .square2 {
+    -webkit-animation-delay: 0.6s;
+    animation-delay: 0.6s;
+}
+
+.spinner-grid .square3 {
+    -webkit-animation-delay: 0.8s;
+    animation-delay: 0.8s;
+}
+
+.spinner-grid .square4 {
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s;
+}
+
+.spinner-grid .square5 {
+    -webkit-animation-delay: 0.4s;
+    animation-delay: 0.4s;
+}
+
+.spinner-grid .square6 {
+    -webkit-animation-delay: 0.6s;
+    animation-delay: 0.6s;
+}
+
+.spinner-grid .square7 {
+    -webkit-animation-delay: 0s;
+    animation-delay: 0s;
+}
+
+.spinner-grid .square8 {
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s;
+}
+
+.spinner-grid .square9 {
+    -webkit-animation-delay: 0.4s;
+    animation-delay: 0.4s;
+}
+
+@-webkit-keyframes squareGridScaleDelay {
+    0%, 70%, 100% {
+        -webkit-transform: scale3D(1, 1, 1);
+        transform: scale3D(1, 1, 1);
+    }
+    35% {
+        -webkit-transform: scale3D(0, 0, 1);
+        transform: scale3D(0, 0, 1);
+    }
+}
+
+@keyframes squareGridScaleDelay {
+    0%, 70%, 100% {
+        -webkit-transform: scale3D(1, 1, 1);
+        transform: scale3D(1, 1, 1);
+    }
+    35% {
+        -webkit-transform: scale3D(0, 0, 1);
+        transform: scale3D(0, 0, 1);
+    }
+}
+
+@media only screen and (max-width: 1240px) {
+    .preferences {
+        width: fit-content;
+    }
+}
+
+@media only screen and (max-height: 1000px) {
+    .editor {
+        margin-top: 0px;
+    }
+
+    .begin-arrow {
+        margin-left: 10px;
+    }
+
+    .begin-arrow p {
+        display: none;
+    }
+}
+
+@media only screen and (max-height: 900px) and (min-width: 800px) {
+    .editor {
+        margin-top: 0px;
+        margin-left: 5vh;
+    }
+
+    .preferences {
+        margin-right: 5vh;
+        bottom: -435px
+    }
+
+    .preferences:hover {
+        bottom: -415px
+    }
+}
+
+@media only screen and (max-height: 700px) and (min-width: 800px) {
+    .preferences {
+        bottom: -415px
+    }
+
+    .preferences:hover {
+        bottom: -395px
+    }
+}
+
+@media only screen and (max-height: 460px) and (min-width: 800px) {
+    .editor {
+        overflow-y: auto;
+        height: 100%;
+    }
+
+    .preferences {
+        margin-right: 5vh;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .preferences {
+        width: 90%;
+    }
+
+    .editor {
+        width: 80%;
+    }
+}
+
+@media only screen and (max-width: 800px) and (max-height: 930px) {
+    .preferences {
+        height: 50vh;
+        overflow-y: auto;
+    }
+
+    .editor {
+        height: 50vh;
+        overflow-y: auto;
+    }
+}
+
+@media only screen and (max-height: 450px) {
+    .preferences {
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    .editor {
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    #small-d-lock {
+        display: inline-block;
+    }
+}
