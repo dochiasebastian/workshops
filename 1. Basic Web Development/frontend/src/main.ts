@@ -33,7 +33,7 @@ function loadRoutine() {
     }
 
     document.getElementById('start-spinner').classList.add("no-display");
-    document.getElementById('site-content').classList.remove("no-display");
+    document.getElementById('auth').classList.remove("no-display");
 }
 
 function permissionsRoutine() {
