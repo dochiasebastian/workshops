@@ -1,6 +1,7 @@
 import express = require('express');
 import cors = require('cors');
 import { connectDB } from './Config/DB';
+import errorHandler from './Middleware/Error';
 
 const app = express();
 const PORT = 5000;
@@ -23,6 +24,8 @@ app.post('/', (req, res) => {
 
 app.use('/api/v1/permissions', permissionsRoute);
 app.use('/api/v1/auth', authRoute);
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
