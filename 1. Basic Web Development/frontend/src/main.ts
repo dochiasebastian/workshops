@@ -35,7 +35,6 @@ function loadRoutine() {
     }
 
     document.getElementById('start-spinner').classList.add("no-display");
-    console.log(HEADERS);
 
     fetch(API_URL + '/auth/me', { method: 'GET', headers: HEADERS })
         .then(response => response.json())
@@ -272,6 +271,9 @@ function formSubmission(form: HTMLElement) {
         } else if ((event.target as HTMLElement).id == "login-form") {
             submitLogin(form);
 
+        } else if ((event.target as HTMLElement).id == "signup-form") {
+            submitSignUp();
+
         }
     });
 }
@@ -368,6 +370,37 @@ function submitLogin(form: HTMLElement) {
     const messageJSON = JSON.stringify({ email: email, password: password });
 
     fetch(API_URL + '/auth/login', { method: 'POST', headers: HEADERS, body: messageJSON })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success == false) {
+                errorMessage.innerHTML = data.error;
+                errorMessage.classList.remove('no-display');
+            } else {
+                document.cookie = `token=${data.token}; path=/`;
+                window.location.reload();
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+function submitSignUp() {
+    const name = (document.getElementById('nameS') as HTMLInputElement).value;
+    const email = (document.getElementById('emailS') as HTMLInputElement).value;
+    const password = (document.getElementById('passwordS') as HTMLInputElement).value;
+
+    const errorMessage = document.getElementById('text-alert-login');
+
+    if (!name || !email || !password) {
+        errorMessage.innerHTML = 'All fields are required';
+        errorMessage.classList.remove('no-display');
+        return;
+    }
+
+    const messageJSON = JSON.stringify({ name: name, email: email, password: password });
+
+    fetch(API_URL + '/auth/register', { method: 'POST', headers: HEADERS, body: messageJSON })
         .then(response => response.json())
         .then(data => {
             if (data.success == false) {
