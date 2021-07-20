@@ -24,38 +24,34 @@
         <div class="square9"></div>
     </div>
     <div id="auth">
-        <div class="auth">
-            <form id="login-form">
-                <div>
-                    <label for="email">Email: </label>
-                    <input id="email" name="email" type="text"/>
-                </div>
-                <div>
-                    <label for="password">Password: </label>
-                    <input id="password" name="password" type="text"/>
-                </div>
-                <button type="submit">Submit</button>
-                <a class="no-decor" href="#signup">SignUp</a>
-            </form>
-        </div>
-        <div class="auth">
-            <form id="signup-form">
-                <div>
-                    <label for="NameS">Name: </label>
-                    <input id="NameS" name="name" type="text"/>
-                </div>
-                <div>
-                    <label for="emailS">Email: </label>
-                    <input id="emailS" name="email" type="text"/>
-                </div>
-                <div>
-                    <label for="passwordS">Password: </label>
-                    <input id="passwordS" name="password" type="text"/>
-                </div>
-                <button type="submit">Submit</button>
-                <a class="no-decor" href="#login">LogIn</a>
-            </form>
-        </div>
+        <form id="login-form" class="auth">
+            <div>
+                <label for="email">Email: </label>
+                <input id="email" name="email" type="text" />
+            </div>
+            <div>
+                <label for="password">Password: </label>
+                <input id="password" name="password" type="text" />
+            </div>
+            <button type="submit">Submit</button>
+            <a class="no-decor" href="#signup">SignUp</a>
+        </form>
+        <form id="signup-form" class="auth">
+            <div>
+                <label for="NameS">Name: </label>
+                <input id="NameS" name="name" type="text" />
+            </div>
+            <div>
+                <label for="emailS">Email: </label>
+                <input id="emailS" name="email" type="text" />
+            </div>
+            <div>
+                <label for="passwordS">Password: </label>
+                <input id="passwordS" name="password" type="text" />
+            </div>
+            <button type="submit">Submit</button>
+            <a class="no-decor" href="#login">LogIn</a>
+        </form>
     </div>
     <div id="site-content" class="no-display">
         <a class="navigate-btn no-decor home-btn" href="#">Home</a>
@@ -96,8 +92,9 @@
             <div id="edit-page" class="no-display">
                 <a class="to-create no-decor" href="#create">&lt; To create</a>
                 <h1>Edit existing preferences</h1>
-                <span>From the preferences list bellow click <span class="delete-btn">X - to delete</span> or <span class="edit-btn">E - to edit</span> an item.</span>
-                <form  id="edit-form" class="no-display">
+                <span>From the preferences list bellow click <span class="delete-btn">X - to delete</span> or <span
+                        class="edit-btn">E - to edit</span> an item.</span>
+                <form id="edit-form" class="no-display">
                     <h2>Category</h2>
                     <div>
                         <input id="permissionAllEdit" name="presetE" type="radio" value="All" />
@@ -151,7 +148,7 @@
                     <form id="permissions-form">
                         <div class="list">
                             <div id="permissions-list"></div>
-                            <div id="spinner" class="spinner-grid no-display" >
+                            <div id="spinner" class="spinner-grid no-display">
                             </div>
                         </div>
                         <span id="counter-display" class="counter-display">You have agreed to </span>

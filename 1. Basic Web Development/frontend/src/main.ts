@@ -95,11 +95,24 @@ function navigate(toLocation: string) {
         document.getElementsByClassName("editor")[0].classList.remove('no-display');
         document.getElementsByClassName("preferences")[0].classList.remove('presentation');
         document.getElementsByClassName("begin-arrow")[0].classList.add('no-display');
-    } else {
+    } else if(toLocation == '#signup') {
+        document.getElementById('auth').classList.remove('no-display');
+        document.getElementById('login-form').classList.add('no-display');
+        document.getElementById('signup-form').classList.remove('no-display');
+        document.getElementById('site-content').classList.add('no-display');
+    } else if(toLocation == '#login') {
+        document.getElementById('auth').classList.remove('no-display');
+        document.getElementById('login-form').classList.remove('no-display');
+        document.getElementById('signup-form').classList.add('no-display');
+        document.getElementById('site-content').classList.add('no-display');
+    } else if(toLocation == '#home') {
+        document.getElementById('auth').classList.add('no-display');
         document.getElementsByClassName("editor")[0].classList.add('no-display');
         document.getElementsByClassName("preferences")[0].classList.add('presentation');
         document.getElementsByClassName("begin-arrow")[0].classList.remove('no-display');
+        document.getElementById('site-content').classList.remove('no-display');
     }
+    //TODO: clean up routing, add routing based on user loggin state
 }
 
 function getBoxes() {
