@@ -26,7 +26,7 @@ export const UserSchema = new mongoose.Schema<UserDocument>({
     },
     role: {
         type: String,
-        enum: ['user', 'dev'],
+        enum: ['user', 'premium'],
         default: 'user'
     },
     password: {

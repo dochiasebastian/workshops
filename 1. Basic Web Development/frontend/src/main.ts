@@ -164,6 +164,23 @@ function handleModification(form: HTMLElement) {
                     console.error('Error:', error);
                     permissionsRoutine();
                 });
+        } else if (target.classList.contains('upvote-btn') && target.name) {
+            const elementToVote: Permission = this.PERMISSIONS.filter((perm: Permission) => perm._id == target.name)[0];
+
+            elementToVote.votes++;
+
+            createPermissionsForm(form);
+
+            fetch(API_URL + '/permissions/update', { method: 'PUT', headers: HEADERS, body: JSON.stringify({id: target.name, votes: true}) })
+                .then(response => response.json())
+                .then(data => {
+                    if(!data.success) {
+                        permissionsRoutine();
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         }
     });
 }
@@ -191,6 +208,18 @@ function createPermissionsForm(form: HTMLElement) {
             newInput.disabled = true;
         }
 
+        const newVotes = document.createElement("p");
+        newVotes.innerHTML = element.votes.toString();
+        newVotes.classList.add('upvote-btn');
+        newVotes.classList.add('letter-btn');
+
+        const newUpVoteButton = document.createElement("button");
+        newUpVoteButton.setAttribute('type', 'button');
+        newUpVoteButton.textContent = 'U';
+        newUpVoteButton.setAttribute('name', element._id);
+        newUpVoteButton.classList.add('letter-btn');
+        newUpVoteButton.classList.add('upvote-btn');
+
         const newButtonDelete = document.createElement("button");
         newButtonDelete.setAttribute('type', 'button');
         newButtonDelete.textContent = 'X';
@@ -205,6 +234,8 @@ function createPermissionsForm(form: HTMLElement) {
         newButtonEdit.classList.add('letter-btn');
         newButtonEdit.classList.add('edit-btn');
 
+        newElement.appendChild(newVotes);
+        newElement.appendChild(newUpVoteButton);
         newElement.appendChild(newButtonEdit);
         newElement.appendChild(newButtonDelete);
         newElement.appendChild(newLabel);
@@ -378,7 +409,7 @@ function submitLogin(form: HTMLElement) {
                 errorMessage.innerHTML = data.error;
                 errorMessage.classList.remove('no-display');
             } else {
-                document.cookie = `token=${data.token}; path=/`;
+                document.cookie = `token=${data.token} path=/`;
                 window.location.reload();
             }
         })
@@ -502,15 +533,13 @@ function toggleLoad(isLoading: boolean) {
 }
 
 class Permission {
-    _id: string;
-
-    constructor(public text: string, public type: string) {
-        this.type = type;
-        this.text = text;
-    }
+    public _id: string;
+    public votes: number = 0;
+    constructor(public text: string, public type: string) { }
 }
 
 interface User {
     name: string,
     email: string,
+    role: string
 }

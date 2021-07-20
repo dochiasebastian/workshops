@@ -13,6 +13,10 @@ export const PermissionSchema = new mongoose.Schema<PermissionDocument>({
     text: {
         type: String,
         required: [true, 'Text is required']
+    },
+    votes: {
+        type: Number,
+        default: 0
     }
 });
 
