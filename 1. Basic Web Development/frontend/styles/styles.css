@@ -47,10 +47,19 @@ label:lang(en) {
 
 .editor {
     background-color: var(--bg-color);
-    width: 30%;
+    width: 40%;
     margin: auto;
     margin-top: 10vh;
     padding: 15px;
+}
+
+.editor-block {
+    display: flex;
+    width: 100%;
+}
+
+.editor-block-el {
+    width: 100%;
 }
 
 .to-edit {

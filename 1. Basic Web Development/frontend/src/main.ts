@@ -52,14 +52,18 @@ function loadRoutine() {
 
 function categoriesRoutine() {
     toggleLoad(true);
-    fetch(API_URL + '/permissions', { method: 'GET', headers: HEADERS })
+    fetch(API_URL + '/categories', { method: 'GET', headers: HEADERS })
         .then(response => response.json())
         .then(data => {
             this.CATEGORIES = data.data;
-            createCategoriesForms("categories-list");
+
+            const categoryForm = document.getElementById("categories-list");
+
+            createCategoriesForms(categoryForm);
+            createCategoriesFormDisplay()
             toggleLoad(false);
-    })
-    .catch((error) => console.error('Error:', error));
+        })
+        .catch((error) => console.error('Error:', error));
 }
 
 function permissionsRoutine() {
@@ -103,6 +107,9 @@ function routingRoutine() {
 }
 
 function navigate(toLocation: string) {
+    const categoryForm = document.getElementById("categories-list");
+    const categoryEditForm = document.getElementById("categories-list-edit");
+
     if (toLocation == '#edit' && this.USER) {
         document.getElementById("creation-page").classList.add("no-display");
         document.getElementById("edit-page").classList.remove("no-display");
@@ -112,6 +119,9 @@ function navigate(toLocation: string) {
         document.getElementsByClassName("editor")[0].classList.remove('no-display');
         document.getElementsByClassName("preferences")[0].classList.remove('presentation');
         document.getElementsByClassName("begin-arrow")[0].classList.add('no-display');
+
+        removeChildren(categoryForm);
+        createCategoriesForms(categoryEditForm);
     } else if (toLocation == '#create' && this.USER) {
         document.getElementById("creation-page").classList.remove("no-display");
         document.getElementById("edit-page").classList.add("no-display");
@@ -121,6 +131,9 @@ function navigate(toLocation: string) {
         document.getElementsByClassName("editor")[0].classList.remove('no-display');
         document.getElementsByClassName("preferences")[0].classList.remove('presentation');
         document.getElementsByClassName("begin-arrow")[0].classList.add('no-display');
+
+        removeChildren(categoryEditForm);
+        createCategoriesForms(categoryForm);
     } else if (toLocation == '#signup') {
         document.getElementById('auth').classList.remove('no-display');
         document.getElementById('login-form').classList.add('no-display');
@@ -144,15 +157,14 @@ function navigate(toLocation: string) {
     }
 }
 
-function createCategoriesForms(location: string) {
-    const categoryForm = document.getElementById(location);
+function createCategoriesForms(categoryForm: HTMLElement) {
     removeChildren(categoryForm);
 
     this.CATEGORIES.forEach((element: Category) => {
         const newSection = document.createElement('div');
 
         const newInput = document.createElement('input');
-        newInput.setAttribute('id', element._id);
+        newInput.setAttribute('id', element._id + "edit");
         newInput.setAttribute('name', 'presetC');
         newInput.setAttribute('type', 'radio');
         newInput.setAttribute('value', element.text);
@@ -168,11 +180,39 @@ function createCategoriesForms(location: string) {
     });
 }
 
-function getBoxes() {
-    let pmsBoxes = document.querySelectorAll('input[name="permissionPms"]') as NodeListOf<HTMLInputElement>;
-    let allBoxes = document.querySelectorAll('input[name="permissionAll"]') as NodeListOf<HTMLInputElement>;
+function createCategoriesFormDisplay() {
+    const categoryForm = document.getElementById('categories-form-display');
+    removeChildren(categoryForm);
 
-    return { pmsBoxes, allBoxes };
+    this.CATEGORIES.forEach((element: Category) => {
+        const newSection = document.createElement('div');
+        newSection.classList.add("grid-element");
+
+        const newInput = document.createElement('input');
+        newInput.setAttribute('id', element._id);
+        newInput.setAttribute('name', 'preset');
+        newInput.setAttribute('type', 'radio');
+        newInput.setAttribute('value', element.text);
+
+        const newLabel = document.createElement('label');
+        newLabel.setAttribute('for', element._id);
+        newLabel.innerHTML = element.text;
+
+        newSection.appendChild(newLabel);
+        newSection.appendChild(newInput);
+
+        categoryForm.appendChild(newSection);
+    });
+}
+
+function getBoxes() {
+    const boxes: any = [];
+
+    CATEGORIES.forEach((element: Category) => {
+        boxes.push(document.querySelectorAll(`input[name="${element.text}"]`));
+    });
+
+    return boxes;
 }
 
 function handleModification(form: HTMLElement) {
@@ -225,7 +265,7 @@ function createPermissionsForm(form: HTMLElement) {
         newInput.setAttribute('name', element.type);
         newInput.setAttribute('type', 'checkbox');
 
-        if (element.type == "permissionNss") {
+        if (element.type == "60f7d659d2a13b41e05f1ee4") {
             newInput.click();
             newInput.disabled = true;
         }
@@ -270,26 +310,15 @@ function setCounter() {
 
 function handleRadios() {
     document.addEventListener('change', event => {
-        if ((event.target as HTMLInputElement).name == "preset") {
-            switch ((event.target as HTMLInputElement).value) {
-                case "All":
-                    changeBoxesState(this.BOXES.pmsBoxes, true);
-                    changeBoxesState(this.BOXES.allBoxes, true);
-                    break;
+        const target = (event.target as HTMLInputElement)
+        if (target.name == "preset") {
+            const allBoxes: NodeListOf<HTMLInputElement> = document.querySelectorAll('form input[type="checkbox"]:not(input[name="60f7d659d2a13b41e05f1ee4"])');
+            changeBoxesState(allBoxes, false);
 
-                case "Permissive":
-                    changeBoxesState(this.BOXES.pmsBoxes, true);
-                    changeBoxesState(this.BOXES.allBoxes, false);
-                    break;
-
-                case "Necessary":
-                    changeBoxesState(this.BOXES.pmsBoxes, false);
-                    changeBoxesState(this.BOXES.allBoxes, false);
-                    break;
-
-                default:
-                    break;
-            }
+            console.log(target.id);
+            const boxes: NodeListOf<HTMLInputElement> = document.querySelectorAll(`form input[type="checkbox"][name="${target.id}"]`);
+            console.log(boxes);
+            changeBoxesState(boxes, true);
         }
 
         setCounter();
@@ -351,8 +380,9 @@ function submitCreation(form: HTMLElement) {
 
     document.getElementById('text-alert').classList.add('no-display');
 
+    console.log(type);
 
-    const newPermission = new Permission(text, type)
+    const newPermission = new Permission(text, type.replace("edit", ''));
 
     this.PERMISSIONS.push(newPermission);
 

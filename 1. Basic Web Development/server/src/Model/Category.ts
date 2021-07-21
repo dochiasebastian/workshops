@@ -7,7 +7,8 @@ export interface CategoryDocument extends mongoose.Document {
 export const CategorySchema = new mongoose.Schema<CategoryDocument>({
     text: {
         type: String,
-        required: [true, 'Text is required']
+        required: [true, 'Text is required'],
+        unique: [true, 'CAtegory already exists'],
     }
 });
 

@@ -77,19 +77,16 @@
                 <a class="to-edit no-decor" href="#edit">To edit ></a>
                 <h1>Add new permissions</h1>
                 <form id="creation-form">
-                    <h2>Category</h2>
-                    <div id="categories-list">
-                        <div>
-                            <input id="permissionAll" name="presetC" type="radio" value="All" />
-                            <label for="permissionAll">All</label>
+                    <div class="editor-block">
+                        <div class="editor-block-el">
+                            <h2>Category</h2>
+                            <div id="categories-list">
+                            </div>
                         </div>
-                        <div>
-                            <input id="permissionPms" name="presetC" type="radio" value="Permissive" />
-                            <label for="permissionPms">Permissive</label>
-                        </div>
-                        <div>
-                            <input id="permissionNss" name="presetC" type="radio" value="Necessary" checked />
-                            <label for="permissionNss">Necessary</label>
+                        <div id="add-category" class="editor-block-el">
+                            <h2>Add Category</h2>
+                            <label for="categoryNameEdit">Category name</label>
+                            <input id="categoryNameEdit" name="categoryName" type="text" />
                         </div>
                     </div>
                     <h2>Permisison text</h2>
@@ -108,17 +105,7 @@
                         class="edit-btn">E - to edit</span> an item.</span>
                 <form id="edit-form" class="no-display">
                     <h2>Category</h2>
-                    <div>
-                        <input id="permissionAllEdit" name="presetE" type="radio" value="All" />
-                        <label for="permissionAllEdit">All</label>
-                    </div>
-                    <div>
-                        <input id="permissionPmsEdit" name="presetE" type="radio" value="Permissive" />
-                        <label for="permissionPmsEdit">Permissive</label>
-                    </div>
-                    <div>
-                        <input id="permissionNssEdit" name="presetE" type="radio" value="Necessary" checked />
-                        <label for="permissionNssEdit">Necessary</label>
+                    <div id="categories-list-edit">
                     </div>
                     <h2>Permisison text</h2>
                     <div class="text-input-element">
@@ -140,7 +127,7 @@
                 <h1>Select your preferences:</h1>
                 <div class="section">
                     <h2>Presets:</h2>
-                    <form>
+                    <form id="categories-form-display">
                         <div class="grid-element">
                             <label for="all">All</label>
                             <input id="all" name="preset" type="radio" value="All" />
