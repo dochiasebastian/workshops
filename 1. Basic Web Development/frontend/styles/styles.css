@@ -45,6 +45,16 @@ label:lang(en) {
     transition: bottom 200ms linear 50ms;
 }
 
+#categories-list {
+    height: 75px;
+    overflow-y: auto;
+}
+
+#categories-form-display {
+    height: 75px;
+    overflow-y: auto;
+}
+
 .editor {
     background-color: var(--bg-color);
     width: 40%;
@@ -60,6 +70,10 @@ label:lang(en) {
 
 .editor-block-el {
     width: 100%;
+}
+
+#add-category {
+    margin-left: 10px;
 }
 
 .to-edit {
