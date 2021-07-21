@@ -45,12 +45,35 @@ label:lang(en) {
     transition: bottom 200ms linear 50ms;
 }
 
+#categories-list {
+    height: 75px;
+    overflow-y: auto;
+}
+
+#categories-form-display {
+    height: 75px;
+    overflow-y: auto;
+}
+
 .editor {
     background-color: var(--bg-color);
-    width: 30%;
+    width: 40%;
     margin: auto;
     margin-top: 10vh;
     padding: 15px;
+}
+
+.editor-block {
+    display: flex;
+    width: 100%;
+}
+
+.editor-block-el {
+    width: 100%;
+}
+
+#add-category {
+    margin-left: 10px;
 }
 
 .to-edit {
@@ -65,6 +88,12 @@ label:lang(en) {
 .home-btn {
     margin: 20px;
     position: absolute;
+}
+
+.logout-btn {
+    margin: 20px;
+    position: absolute;
+    right: 0;
 }
 
 .navigate-btn {
@@ -223,10 +252,45 @@ input[type="text"] {
     display: none;
 }
 
-#text-alert {
+.text-alert {
     color: brown;
     float: right;
     margin-right: 7%;
+    margin-top: 0px;
+}
+
+.auth {
+    width: 400px;
+    margin: auto;
+    margin-top: 20vh;
+    background-color: var(--bg-color);
+    padding: 20px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--highlight);
+}
+
+.auth div {
+    margin-bottom: 20px;
+}
+
+.auth h2 {
+    margin-bottom: 40px;
+}
+
+.auth input {
+    float: right;
+    width: 250px;
+}
+
+.auth a {
+    float: right;
+}
+
+.line {
+    margin-top: 70px;
+    display: block;
+    width: 100%;
 }
 
 .spinner-grid {
@@ -414,5 +478,9 @@ input[type="text"] {
 
     #small-d-lock {
         display: inline-block;
+    }
+
+    .home-btn {
+        margin: 2px;
     }
 }

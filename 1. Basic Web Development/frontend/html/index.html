@@ -23,9 +23,49 @@
         <div class="square8"></div>
         <div class="square9"></div>
     </div>
+    <div id="auth">
+        <form id="login-form" class="auth">
+            <h2>LogIn</h2>
+            <div>
+                <label for="email">Email: </label>
+                <input id="email" name="email" type="text" />
+            </div>
+            <div>
+                <label for="password">Password: </label>
+                <input id="password" name="password" type="password" />
+            </div>
+            <p id="text-alert-login" class="text-alert no-display">Unknown Error</p>
+            <div class="line">
+                <button type="submit">Submit</button>
+                <a class="no-decor" href="#signup">SignUp</a>
+            </div>
+        </form>
+        <form id="signup-form" class="auth no-display">
+            <h2>SignUp</h2>
+            <div>
+                <label for="nameS">Name: </label>
+                <input id="nameS" name="name" type="text" />
+            </div>
+            <div>
+                <label for="emailS">Email: </label>
+                <input id="emailS" name="email" type="text" />
+            </div>
+            <div>
+                <label for="passwordS">Password: </label>
+                <input id="passwordS" name="password" type="password" />
+            </div>
+            <p id="text-alert-login" class="text-alert no-display">Unknown Error</p>
+            <div class="line">
+                <button type="submit">Submit</button>
+                <a class="no-decor" href="#login">LogIn</a>
+            </div>
+        </form>
+    </div>
     <div id="site-content" class="no-display">
-        <a class="navigate-btn no-decor home-btn" href="#">Home</a>
+        <a class="navigate-btn no-decor home-btn" href="#home">Home</a>
+        <a class="navigate-btn no-decor logout-btn" href="#login">LogOut</a>
         <div class="begin-arrow">
+            <p>Hello</p>
             <p>Begin Editing</p>
             <p> |</p>
             <p> |</p>
@@ -35,54 +75,46 @@
         <div class="editor no-display">
             <div id="creation-page" class="">
                 <a class="to-edit no-decor" href="#edit">To edit ></a>
-                <h1>Design your preferences pop-up</h1>
+                <h1>Add new permissions</h1>
                 <form id="creation-form">
-                    <h2>Category</h2>
-                    <div>
-                        <input id="permissionAll" name="presetC" type="radio" value="All" />
-                        <label for="permissionAll">All</label>
-                    </div>
-                    <div>
-                        <input id="permissionPms" name="presetC" type="radio" value="Permissive" />
-                        <label for="permissionPms">Permissive</label>
-                    </div>
-                    <div>
-                        <input id="permissionNss" name="presetC" type="radio" value="Necessary" checked />
-                        <label for="permissionNss">Necessary</label>
+                    <div class="editor-block">
+                        <div class="editor-block-el">
+                            <h2>Category</h2>
+                            <div id="categories-list">
+                            </div>
+                        </div>
+                        <div id="add-category" class="editor-block-el">
+                            <h2>Add Category</h2>
+                            <label for="categoryNameEdit">Category name</label>
+                            <input id="categoryNameEdit" name="categoryName" type="text" />
+                            <button id="create-category-btn" type="button">Ok</button>
+                            <p id="text-alert-category" class="no-display text-alert">Name is required!</p>
+                        </div>
                     </div>
                     <h2>Permisison text</h2>
                     <div class="text-input-element">
                         <label for="permName">Display text</label>
                         <input id="permName" name="permName" type="text" />
                     </div>
-                    <p id="text-alert" class="no-display">Text is required!</p>
+                    <p id="text-alert" class="no-display text-alert">Text is required!</p>
                     <button type="submit" class="btn-confirm">Confirm</button>
                 </form>
             </div>
             <div id="edit-page" class="no-display">
                 <a class="to-create no-decor" href="#create">&lt; To create</a>
-                <h1>Edit existing preferences</h1>
-                <span>From the preferences list bellow click <span class="delete-btn">X - to delete</span> or <span class="edit-btn">E - to edit</span> an item.</span>
-                <form  id="edit-form" class="no-display">
+                <h1>Edit existing permissions</h1>
+                <span>From the preferences list bellow click <span class="delete-btn">X - to delete</span> or <span
+                        class="edit-btn">E - to edit</span> an item.</span>
+                <form id="edit-form" class="no-display">
                     <h2>Category</h2>
-                    <div>
-                        <input id="permissionAllEdit" name="presetE" type="radio" value="All" />
-                        <label for="permissionAllEdit">All</label>
-                    </div>
-                    <div>
-                        <input id="permissionPmsEdit" name="presetE" type="radio" value="Permissive" />
-                        <label for="permissionPmsEdit">Permissive</label>
-                    </div>
-                    <div>
-                        <input id="permissionNssEdit" name="presetE" type="radio" value="Necessary" checked />
-                        <label for="permissionNssEdit">Necessary</label>
+                    <div id="categories-list-edit">
                     </div>
                     <h2>Permisison text</h2>
                     <div class="text-input-element">
                         <label for="permNameEdit">Display text</label>
                         <input id="permNameEdit" name="permName" type="text" />
                     </div>
-                    <p id="text-alert-edit" class="no-display">Text is required!</p>
+                    <p id="text-alert-edit" class="no-display text-alert">Text is required!</p>
                     <button type="submit" class="btn-confirm">Confirm</button>
                 </form>
             </div>
@@ -97,19 +129,7 @@
                 <h1>Select your preferences:</h1>
                 <div class="section">
                     <h2>Presets:</h2>
-                    <form>
-                        <div class="grid-element">
-                            <label for="all">All</label>
-                            <input id="all" name="preset" type="radio" value="All" />
-                        </div>
-                        <div class="grid-element">
-                            <label for="permissive">Permissive</label>
-                            <input id="permissive" name="preset" type="radio" value="Permissive" />
-                        </div>
-                        <div class="grid-element">
-                            <label for="necessary">Necessary</label>
-                            <input id="necessary" name="preset" type="radio" value="Necessary" checked />
-                        </div>
+                    <form id="categories-form-display">
                     </form>
                 </div>
                 <div class="section">
@@ -117,7 +137,7 @@
                     <form id="permissions-form">
                         <div class="list">
                             <div id="permissions-list"></div>
-                            <div id="spinner" class="spinner-grid no-display" >
+                            <div id="spinner" class="spinner-grid no-display">
                             </div>
                         </div>
                         <span id="counter-display" class="counter-display">You have agreed to </span>
