@@ -243,6 +243,28 @@ function handleModification(form: HTMLElement) {
                     console.error('Error:', error);
                     permissionsRoutine();
                 });
+        } else if (target.id == "create-category-btn") {
+            const category = (document.getElementById('categoryNameEdit') as HTMLInputElement).value;
+
+            if (!category) {
+                return;
+            }
+
+            console.log(category);
+
+            fetch(API_URL + '/categories', { method: 'POST', headers: HEADERS, body: JSON.stringify({ text: category }) })
+                .then(response => response.json())
+                .then(data => {
+                    this.CATEGORIES.push(data.data);
+                    const categoryForm = document.getElementById("categories-list");
+
+                    createCategoriesForms(categoryForm);
+                    createCategoriesFormDisplay();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    permissionsRoutine();
+                });
         }
     });
 }
@@ -315,9 +337,8 @@ function handleRadios() {
             const allBoxes: NodeListOf<HTMLInputElement> = document.querySelectorAll('form input[type="checkbox"]:not(input[name="60f7d659d2a13b41e05f1ee4"])');
             changeBoxesState(allBoxes, false);
 
-            console.log(target.id);
             const boxes: NodeListOf<HTMLInputElement> = document.querySelectorAll(`form input[type="checkbox"][name="${target.id}"]`);
-            console.log(boxes);
+
             changeBoxesState(boxes, true);
         }
 
@@ -379,8 +400,6 @@ function submitCreation(form: HTMLElement) {
     }
 
     document.getElementById('text-alert').classList.add('no-display');
-
-    console.log(type);
 
     const newPermission = new Permission(text, type.replace("edit", ''));
 
