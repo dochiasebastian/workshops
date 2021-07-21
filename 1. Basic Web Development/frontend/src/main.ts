@@ -7,12 +7,15 @@ let ISLOCKED = false;
 let COUNTER = 0;
 let BOXES = {};
 let PERMISSIONS: Permission[] = [];
+let CATEGORIES: Category[] = [];
 let NOWEDITING: Permission;
 let USER: User;
 let randomGenerator = getRandomID();
 
 document.addEventListener("DOMContentLoaded", () => {
     loadRoutine();
+
+    categoriesRoutine();
 
     popUpRoutine();
 
@@ -45,6 +48,18 @@ function loadRoutine() {
             }
         })
         .catch((error) => console.error('Error:', error));
+}
+
+function categoriesRoutine() {
+    toggleLoad(true);
+    fetch(API_URL + '/permissions', { method: 'GET', headers: HEADERS })
+        .then(response => response.json())
+        .then(data => {
+            this.CATEGORIES = data.data;
+            createCategoriesForms("categories-list");
+            toggleLoad(false);
+    })
+    .catch((error) => console.error('Error:', error));
 }
 
 function permissionsRoutine() {
@@ -127,6 +142,30 @@ function navigate(toLocation: string) {
     } else {
         window.location.href = "#login";
     }
+}
+
+function createCategoriesForms(location: string) {
+    const categoryForm = document.getElementById(location);
+    removeChildren(categoryForm);
+
+    this.CATEGORIES.forEach((element: Category) => {
+        const newSection = document.createElement('div');
+
+        const newInput = document.createElement('input');
+        newInput.setAttribute('id', element._id);
+        newInput.setAttribute('name', 'presetC');
+        newInput.setAttribute('type', 'radio');
+        newInput.setAttribute('value', element.text);
+
+        const newLabel = document.createElement('label');
+        newLabel.setAttribute('for', element._id);
+        newLabel.innerHTML = element.text;
+
+        newSection.appendChild(newInput);
+        newSection.appendChild(newLabel);
+
+        categoryForm.appendChild(newSection);
+    });
 }
 
 function getBoxes() {
@@ -513,4 +552,9 @@ class Permission {
 interface User {
     name: string,
     email: string,
+}
+
+interface Category {
+    _id: string,
+    text: string
 }

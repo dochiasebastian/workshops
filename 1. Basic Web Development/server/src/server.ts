@@ -4,6 +4,7 @@ import { connectDB } from './Config/DB';
 import errorHandler from './Middleware/Error';
 import permissionsRoute from './Routes/Permissions';
 import authRoute from './Routes/Auth';
+import categoriesRoute from './Routes/Categories'
 
 const app = express();
 const PORT = 5000;
@@ -23,6 +24,7 @@ app.post('/', (req, res) => {
 
 app.use('/api/v1/permissions', permissionsRoute);
 app.use('/api/v1/auth', authRoute);
+app.use('/api/v1/categories', categoriesRoute);
 
 app.use(errorHandler);
 
