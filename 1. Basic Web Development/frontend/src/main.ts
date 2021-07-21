@@ -169,6 +169,10 @@ function createCategoriesForms(categoryForm: HTMLElement) {
         newInput.setAttribute('type', 'radio');
         newInput.setAttribute('value', element.text);
 
+        if(element._id == "60f7d659d2a13b41e05f1ee4") {
+            newInput.click();
+        }
+
         const newLabel = document.createElement('label');
         newLabel.setAttribute('for', element._id);
         newLabel.innerHTML = element.text;
@@ -224,7 +228,7 @@ function handleModification(form: HTMLElement) {
             const elemenToEdit: Permission = this.PERMISSIONS.filter((perm: Permission) => perm._id == target.name)[0];
             this.NOWEDITING = elemenToEdit;
 
-            document.getElementById(elemenToEdit.type + 'Edit').click();
+            document.getElementById(elemenToEdit.type + 'edit').click();
             (document.getElementById('permNameEdit') as HTMLInputElement).value = elemenToEdit.text;
 
             createPermissionsForm(form);
@@ -245,13 +249,14 @@ function handleModification(form: HTMLElement) {
                 });
         } else if (target.id == "create-category-btn") {
             const category = (document.getElementById('categoryNameEdit') as HTMLInputElement).value;
+            document.getElementById('text-alert-category').classList.add('no-display');
 
             if (!category) {
+                document.getElementById('text-alert-category').classList.remove('no-display');
                 return;
             }
 
-            console.log(category);
-
+        
             fetch(API_URL + '/categories', { method: 'POST', headers: HEADERS, body: JSON.stringify({ text: category }) })
                 .then(response => response.json())
                 .then(data => {
